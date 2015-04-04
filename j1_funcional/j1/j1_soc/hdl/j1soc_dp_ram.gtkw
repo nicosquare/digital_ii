@@ -1,0 +1,44 @@
+[*]
+[*] GTKWave Analyzer v3.3.54 (w)1999-2014 BSI
+[*] Sun Nov  9 17:54:42 2014
+[*]
+[dumpfile] "/home/oscar/Repos/j1/hdl/simulation/j1soc_TB.vcd"
+[dumpfile_mtime] "Sun Nov  9 17:50:47 2014"
+[dumpfile_size] 3572318
+[savefile] "/home/oscar/Repos/j1/hdl/j1soc_dp_ram.gtkw"
+[timestart] 224
+[size] 1366 692
+[pos] -1 -1
+*-3.902572 241 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] j1soc_TB.
+[treeopen] j1soc_TB.uut.
+[treeopen] j1soc_TB.uut.cpu0.
+[treeopen] j1soc_TB.uut.dpRm.
+[treeopen] j1soc_TB.uut.per_m.mt_32.
+[sst_width] 223
+[signals_width] 174
+[sst_expanded] 1
+[sst_vpaned_height] 196
+@28
+j1soc_TB.uut.dpRm.dlptRAM.clk
+j1soc_TB.uut.dpRm.dlptRAM.rd_1
+j1soc_TB.uut.dpRm.dlptRAM.wr_1
+@22
+j1soc_TB.uut.dpRm.dlptRAM.addr_1[7:0]
+j1soc_TB.uut.dpRm.dlptRAM.d_in_1[15:0]
+j1soc_TB.uut.dpRm.dlptRAM.d_out_1[15:0]
+@28
+j1soc_TB.uut.dpRm.dlptRAM.wr_2
+j1soc_TB.uut.dpRm.dlptRAM.rd_2
+@22
+j1soc_TB.uut.dpRm.dlptRAM.addr_2[7:0]
+j1soc_TB.uut.dpRm.dlptRAM.d_out_2[15:0]
+j1soc_TB.uut.dpRm.dlptRAM.d_in_2[15:0]
+j1soc_TB.uut.dpRm.c_p.F_1[15:0]
+j1soc_TB.uut.dpRm.c_p.F_2[15:0]
+j1soc_TB.uut.dpRm.c_p.F_3[15:0]
+j1soc_TB.uut.dpRm.c_p.F_4[15:0]
+j1soc_TB.uut.dpRm.c_p.F_5[15:0]
+j1soc_TB.uut.dpRm.c_p.F_6[15:0]
+[pattern_trace] 1
+[pattern_trace] 0

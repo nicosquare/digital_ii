@@ -1,0 +1,10 @@
+run
+-top mult_32 
+-p xc3s100e-VQ100-4
+-opt_mode Area
+-opt_level 1
+-ifn project.src
+-ifmt mixed
+-ofn project.ngc
+-ofmt NGC
+-rtlview yes

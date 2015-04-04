@@ -1,0 +1,102 @@
+`define hdl_version 12'h600
+
+module j1soc#(
+              //parameter   bootram_file     = "../../firmware/hello_world/j1.mem"    // For synthesis            
+              parameter   bootram_file     = "../firmware/Hello_World/j1.mem"       // For simulation         
+  )(
+   // Outputs
+   uart_tx, ledout,
+   // Inputs
+   sys_clk_i, sys_rst_i
+   );
+   // Clock, reset and configuration signals
+   input sys_clk_i, sys_rst_i;
+   output uart_tx;
+   output ledout;
+
+
+   wire                 j1_uart_we;           // From j1 of j1.v
+   wire                 uart_busy;            // From uart of uart.v
+
+   wire                 j1_io_rd;
+   wire                 j1_io_wr;
+   wire                 [15:0] j1_io_addr;
+   reg                  [15:0] j1_io_din;
+   wire                 [15:0] j1_io_dout;
+
+
+   j1 #(bootram_file)
+   cpu0(sys_clk_i, sys_rst_i, j1_io_din, j1_io_rd, j1_io_wr, j1_io_addr, j1_io_dout);
+
+  reg  [31:0]     clock;
+  reg  [8:0]      clockus;
+  wire [8:0]      _clockus;
+  assign _clockus = (clockus != 67) ? (clockus + 1) : 0;
+
+  always @(posedge sys_clk_i)
+  begin
+    if (sys_rst_i) begin
+      clock <= 0;
+      clockus <= 0;
+    end else begin
+      clockus <= _clockus;
+      if (_clockus == 0)
+        clock <= clock + 1;
+    end
+  end
+  // ================================================
+  // Hardware multiplier
+
+  reg [15:0] mult_a;
+  reg [15:0] mult_b;
+  wire [31:0] mult_p;
+  assign mult_p = mult_a*mult_b;
+
+
+
+  // ================================================
+  // LED, I2C, UART
+
+  reg ledout;
+  
+  assign j1_uart_we = (j1_io_addr[15:8] == 8'hf0) & j1_io_wr;
+
+  uart uart(uart_busy, uart_tx, j1_uart_we, j1_io_dout, sys_clk_i, sys_rst_i);
+
+  // ================================================
+  // J1's Memory Mapped I/O
+
+  // ============== J1 READS ========================
+  always @*
+  begin
+      case (j1_io_addr[15:8])
+        16'h67: j1_io_din = mult_p[15:0];
+        16'h68: j1_io_din = mult_p[31:16];
+        16'hf0: j1_io_din = uart_busy;
+        default: j1_io_din = 16'h0666;
+      endcase
+  end
+
+  // ============== J1 WRITES =======================
+  reg [15:0] slow_io_dout;
+  reg [15:0] slow_io_addr;
+
+  // latch addr+data to reduce fanout load on the J1
+  always @(posedge sys_clk_i)
+  begin
+    if (j1_io_wr) begin
+      slow_io_addr <= j1_io_addr;
+      slow_io_dout <= j1_io_dout;
+    end
+  end
+
+  always @(posedge sys_clk_i)
+  begin
+      case (slow_io_addr)
+        16'h6300: ledout <= slow_io_dout[0];
+        16'h6700: mult_a <= slow_io_dout;
+        16'h6702: mult_b <= slow_io_dout;
+      endcase
+  end
+
+endmodule // top

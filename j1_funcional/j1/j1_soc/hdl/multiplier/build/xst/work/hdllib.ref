@@ -1,0 +1,7 @@
+MO control_mult NULL ../mult_32/control_mult.v vlg3A/control__mult.bin 1415600609
+MO rsr NULL ../mult_32/rsr.v vlg53/rsr.bin 1415600609
+MO peripheral_mult NULL ../peripheral_mult.v vlg21/peripheral__mult.bin 1415600609
+MO lsr NULL ../mult_32/lsr.v vlg3D/lsr.bin 1415600609
+MO acc NULL ../mult_32/acc.v vlg4B/acc.bin 1415600609
+MO mult_32 NULL ../mult_32/mult_32.v vlg56/mult__32.bin 1415600609
+MO comp NULL ../mult_32/comp.v vlg3F/comp.bin 1415600609

@@ -1,0 +1,394 @@
+Release 13.4 - xst O.87xd (lin)
+Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
+--> 
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) Design Hierarchy Analysis
+  4) HDL Analysis
+  5) HDL Synthesis
+     5.1) HDL Synthesis Report
+  6) Advanced HDL Synthesis
+     6.1) Advanced HDL Synthesis Report
+  7) Low Level Synthesis
+  8) Partition Report
+  9) Final Report
+	9.1) Device utilization summary
+	9.2) Partition Resource Summary
+	9.3) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "project.src"
+Input Format                       : mixed
+
+---- Target Parameters
+Target Device                      : xC3s500e-fg320
+Output File Name                   : "project.ngc"
+Output Format                      : NGC
+
+---- Source Options
+Top Module Name                    : dpRAM_interface
+
+---- General Options
+Optimization Goal                  : Area
+Optimization Effort                : 1
+RTL Output                         : yes
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling verilog file "../dpRAM_interface.v" in library work
+Compiling verilog file "../core_peripheric.v" in library work
+Module <dpRAM_interface> compiled
+Compiling verilog file "../dualport_RAM.v" in library work
+Module <core_peripheric> compiled
+Module <dualport_RAM> compiled
+No errors in compilation
+Analysis of file <"project.src"> succeeded.
+ 
+
+=========================================================================
+*                     Design Hierarchy Analysis                         *
+=========================================================================
+Analyzing hierarchy for module <dpRAM_interface> in library <work>.
+
+Analyzing hierarchy for module <dualport_RAM> in library <work>.
+
+Analyzing hierarchy for module <core_peripheric> in library <work>.
+
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing top module <dpRAM_interface>.
+Module <dpRAM_interface> is correct for synthesis.
+ 
+Analyzing module <dualport_RAM> in library <work>.
+Module <dualport_RAM> is correct for synthesis.
+ 
+Analyzing module <core_peripheric> in library <work>.
+Module <core_peripheric> is correct for synthesis.
+ 
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Performing bidirectional port resolution...
+
+Synthesizing Unit <dualport_RAM>.
+    Related source file is "../dualport_RAM.v".
+    Found 16-bit register for signal <d_out_1>.
+    Found 16-bit register for signal <d_out_2>.
+    Found 256-bit register for signal <ram>.
+INFO:Xst:738 - HDL ADVISOR - 256 flip-flops were inferred for signal <ram>. You may be trying to describe a RAM in a way that is incompatible with block and distributed RAM resources available on Xilinx devices, or with a specific template that is not supported. Please review the Xilinx resources documentation and the XST user manual for coding guidelines. Taking advantage of RAM resources will lead to improved device usage and reduced synthesis time.
+    Summary:
+	inferred 288 D-type flip-flop(s).
+	inferred  32 Multiplexer(s).
+Unit <dualport_RAM> synthesized.
+
+
+Synthesizing Unit <core_peripheric>.
+    Related source file is "../core_peripheric.v".
+    Found finite state machine <FSM_0> for signal <estado>.
+    -----------------------------------------------------------------------
+    | States             | 14                                             |
+    | Transitions        | 15                                             |
+    | Inputs             | 1                                              |
+    | Outputs            | 24                                             |
+    | Clock              | clk                       (rising_edge)        |
+    | Power Up State     | 0000                                           |
+    | Encoding           | automatic                                      |
+    | Implementation     | automatic                                      |
+    -----------------------------------------------------------------------
+    Found 16-bit register for signal <F_1>.
+    Found 16-bit register for signal <F_2>.
+    Found 16-bit register for signal <F_3>.
+    Found 16-bit register for signal <F_4>.
+    Found 16-bit register for signal <F_5>.
+    Found 16-bit register for signal <F_6>.
+    Summary:
+	inferred   1 Finite State Machine(s).
+	inferred  96 D-type flip-flop(s).
+Unit <core_peripheric> synthesized.
+
+
+Synthesizing Unit <dpRAM_interface>.
+    Related source file is "../dpRAM_interface.v".
+Unit <dpRAM_interface> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Registers                                            : 70
+ 1-bit register                                        : 32
+ 16-bit register                                       : 6
+ 8-bit register                                        : 32
+# Multiplexers                                         : 4
+ 8-bit 31-to-1 multiplexer                             : 2
+ 8-bit 32-to-1 multiplexer                             : 2
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+Analyzing FSM <FSM_0> for best encoding.
+Optimizing FSM <c_p/estado/FSM> on signal <estado[1:14]> with one-hot encoding.
+-------------------------
+ State | Encoding
+-------------------------
+ 0000  | 00000000000001
+ 0001  | 00000000000010
+ 0010  | 00000000000100
+ 0011  | 00000000001000
+ 0100  | 00000000010000
+ 0101  | 00000000100000
+ 0110  | 00000001000000
+ 0111  | 00000010000000
+ 1000  | 00000100000000
+ 1001  | 00001000000000
+ 1010  | 00010000000000
+ 1011  | 00100000000000
+ 1100  | 01000000000000
+ 1101  | 10000000000000
+-------------------------
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# FSMs                                                 : 1
+# Registers                                            : 384
+ Flip-Flops                                            : 384
+# Multiplexers                                         : 18
+ 1-bit 32-to-1 multiplexer                             : 16
+ 8-bit 31-to-1 multiplexer                             : 2
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <dpRAM_interface> ...
+
+Optimizing unit <dualport_RAM> ...
+
+Optimizing unit <core_peripheric> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 398
+ Flip-Flops                                            : 398
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+RTL Top Level Output File Name     : project.ngr
+Top Level Output File Name         : project.ngc
+Output Format                      : NGC
+Optimization Goal                  : Area
+Keep Hierarchy                     : no
+
+Design Statistics
+# IOs                              : 44
+
+Cell Usage :
+# BELS                             : 1392
+#      GND                         : 1
+#      LUT1                        : 136
+#      LUT2                        : 10
+#      LUT3                        : 410
+#      LUT4                        : 481
+#      MUXF5                       : 194
+#      MUXF6                       : 96
+#      MUXF7                       : 48
+#      MUXF8                       : 16
+# FlipFlops/Latches                : 398
+#      FD                          : 12
+#      FDE                         : 96
+#      FDE_1                       : 288
+#      FDR                         : 1
+#      FDS                         : 1
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 40
+#      IBUF                        : 24
+#      OBUF                        : 16
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 3s500efg320-5 
+
+ Number of Slices:                      580  out of   4656    12%  
+ Number of Slice Flip Flops:            382  out of   9312     4%  
+ Number of 4 input LUTs:               1037  out of   9312    11%  
+ Number of IOs:                          44
+ Number of bonded IOBs:                  41  out of    232    17%  
+    IOB Flip Flops:                      16
+ Number of GCLKs:                         1  out of     24     4%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 398   |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -5
+
+   Minimum period: 21.754ns (Maximum Frequency: 45.968MHz)
+   Minimum input arrival time before clock: 8.836ns
+   Maximum output required time after clock: 4.040ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 21.754ns (frequency: 45.968MHz)
+  Total number of paths / destination ports: 24695 / 768
+-------------------------------------------------------------------------
+Delay:               10.877ns (Levels of Logic = 8)
+  Source:            c_p/estado_FSM_FFd12 (FF)
+  Destination:       dlptRAM/ram_14_7 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk falling
+
+  Data Path: c_p/estado_FSM_FFd12 to dlptRAM/ram_14_7
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               2   0.514   0.532  c_p/estado_FSM_FFd12 (c_p/estado_FSM_FFd12)
+     LUT4:I0->O            1   0.612   0.360  c_p/estado_FSM_Out14_SW0 (N297)
+     LUT4:I3->O           23   0.612   1.025  c_p/estado_FSM_Out14 (rd_p)
+     LUT4:I3->O           96   0.612   1.093  dlptRAM/ram_10_mux0000<10>311 (dlptRAM/N127)
+     LUT4:I3->O           11   0.612   0.796  dlptRAM/ram_10_mux0000<10>221 (dlptRAM/N139)
+     LUT4:I3->O            1   0.612   0.360  dlptRAM/ram_14_mux0000<10>117 (dlptRAM/ram_14_mux0000<10>117)
+     LUT4:I3->O            1   0.612   0.360  dlptRAM/ram_14_mux0000<10>142_SW0 (N359)
+     LUT4:I3->O            8   0.612   0.673  dlptRAM/ram_14_mux0000<10>142 (dlptRAM/N3)
+     LUT3:I2->O            1   0.612   0.000  dlptRAM/ram_14_mux0000<9> (dlptRAM/ram_14_mux0000<9>)
+     FDE_1:D                   0.268          dlptRAM/ram_14_1
+    ----------------------------------------
+    Total                     10.877ns (5.678ns logic, 5.199ns route)
+                                       (52.2% logic, 47.8% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 6544 / 544
+-------------------------------------------------------------------------
+Offset:              8.836ns (Levels of Logic = 7)
+  Source:            cs (PAD)
+  Destination:       dlptRAM/ram_14_7 (FF)
+  Destination Clock: clk falling
+
+  Data Path: cs to dlptRAM/ram_14_7
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             6   1.106   0.721  cs_IBUF (cs_IBUF)
+     LUT3:I0->O           54   0.612   1.231  dlptRAM/ram_10_mux0000<10>11 (dlptRAM/N01)
+     LUT3:I0->O            2   0.612   0.383  dlptRAM/ram_10_mux0000<10>312 (dlptRAM/N66)
+     LUT4:I3->O            2   0.612   0.383  dlptRAM/ram_6_mux0000<10>4_SW0 (N87)
+     LUT4:I3->O            8   0.612   0.646  dlptRAM/ram_14_mux0000<10>4 (dlptRAM/N184)
+     LUT4:I3->O            1   0.612   0.426  dlptRAM/ram_14_mux0000<9>_SW0 (N263)
+     LUT3:I1->O            1   0.612   0.000  dlptRAM/ram_14_mux0000<9> (dlptRAM/ram_14_mux0000<9>)
+     FDE_1:D                   0.268          dlptRAM/ram_14_1
+    ----------------------------------------
+    Total                      8.836ns (5.046ns logic, 3.790ns route)
+                                       (57.1% logic, 42.9% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 16 / 16
+-------------------------------------------------------------------------
+Offset:              4.040ns (Levels of Logic = 1)
+  Source:            dlptRAM/d_out_1_15 (FF)
+  Destination:       d_out<15> (PAD)
+  Source Clock:      clk falling
+
+  Data Path: dlptRAM/d_out_1_15 to d_out<15>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE_1:C->Q            1   0.514   0.357  dlptRAM/d_out_1_15 (dlptRAM/d_out_1_15)
+     OBUF:I->O                 3.169          d_out_15_OBUF (d_out<15>)
+    ----------------------------------------
+    Total                      4.040ns (3.683ns logic, 0.357ns route)
+                                       (91.2% logic, 8.8% route)
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 15.00 secs
+Total CPU time to Xst completion: 14.32 secs
+ 
+--> 
+
+
+Total memory usage is 175056 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :    1 (   0 filtered)
+

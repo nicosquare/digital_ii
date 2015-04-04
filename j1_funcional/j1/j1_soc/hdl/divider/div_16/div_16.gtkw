@@ -1,0 +1,55 @@
+[*]
+[*] GTKWave Analyzer v3.3.54 (w)1999-2014 BSI
+[*] Mon Nov 10 04:30:01 2014
+[*]
+[dumpfile] "/home/oscar/Repos/j1/hdl/divider/div_16/simulation/div_16_TB.vcd"
+[dumpfile_mtime] "Mon Nov 10 04:29:47 2014"
+[dumpfile_size] 4658
+[savefile] "/home/oscar/Repos/j1/hdl/divider/div_16/div_16.gtkw"
+[timestart] 683100
+[size] 1366 692
+[pos] -1 -1
+*-15.000000 648600 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] div_16_TB.
+[treeopen] div_16_TB.uut.
+[sst_width] 223
+[signals_width] 126
+[sst_expanded] 1
+[sst_vpaned_height] 193
+@c00024
+div_16_TB.uut.A[15:0]
+@28
+(0)div_16_TB.uut.A[15:0]
+(1)div_16_TB.uut.A[15:0]
+(2)div_16_TB.uut.A[15:0]
+(3)div_16_TB.uut.A[15:0]
+(4)div_16_TB.uut.A[15:0]
+(5)div_16_TB.uut.A[15:0]
+(6)div_16_TB.uut.A[15:0]
+(7)div_16_TB.uut.A[15:0]
+(8)div_16_TB.uut.A[15:0]
+(9)div_16_TB.uut.A[15:0]
+(10)div_16_TB.uut.A[15:0]
+(11)div_16_TB.uut.A[15:0]
+(12)div_16_TB.uut.A[15:0]
+(13)div_16_TB.uut.A[15:0]
+(14)div_16_TB.uut.A[15:0]
+(15)div_16_TB.uut.A[15:0]
+@1401200
+-group_end
+@24
+div_16_TB.uut.B[15:0]
+@28
+div_16_TB.uut.clk
+@25
+div_16_TB.uut.Result[15:0]
+@28
+div_16_TB.uut.done
+div_16_TB.uut.lsr_d.A[15:0]
+div_16_TB.uut.sb.Result[15:0]
+@24
+div_16_TB.uut.ctl_dv.state[2:0]
+@28
+div_16_TB.uut.MSB
+[pattern_trace] 1
+[pattern_trace] 0

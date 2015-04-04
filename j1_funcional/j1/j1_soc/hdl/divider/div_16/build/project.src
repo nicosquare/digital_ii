@@ -1,0 +1,6 @@
+verilog work ../div_16.v
+verilog work ../control_div.v
+verilog work ../subtractor.v
+verilog work ../lsr_div.v
+verilog work ../counter_div.v
+verilog work ../final_result.v

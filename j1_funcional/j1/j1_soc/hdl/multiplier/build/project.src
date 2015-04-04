@@ -1,0 +1,7 @@
+verilog work ../peripheral_mult.v
+verilog work ../mult_32/acc.v
+verilog work ../mult_32/comp.v
+verilog work ../mult_32/control_mult.v
+verilog work ../mult_32/lsr.v
+verilog work ../mult_32/rsr.v
+verilog work ../mult_32/mult_32.v

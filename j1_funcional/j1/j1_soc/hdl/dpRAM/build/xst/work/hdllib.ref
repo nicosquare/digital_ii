@@ -1,0 +1,3 @@
+MO dualport_RAM NULL ../dualport_RAM.v vlg2E/dualport___r_a_m.bin 1415600592
+MO core_peripheric NULL ../core_peripheric.v vlg0B/core__peripheric.bin 1415600592
+MO dpRAM_interface NULL ../dpRAM_interface.v vlg2C/dp_r_a_m__interface.bin 1415600592

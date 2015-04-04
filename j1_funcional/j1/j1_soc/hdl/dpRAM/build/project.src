@@ -1,0 +1,3 @@
+verilog work ../dpRAM_interface.v
+verilog work ../core_peripheric.v
+verilog work ../dualport_RAM.v

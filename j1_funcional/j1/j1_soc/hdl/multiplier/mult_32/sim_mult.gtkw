@@ -1,0 +1,27 @@
+[*]
+[*] GTKWave Analyzer v3.3.54 (w)1999-2014 BSI
+[*] Tue Oct 28 22:11:03 2014
+[*]
+[dumpfile] "/home/oscar/Repos/j1/hdl/multiplier/mult_32/simulation/top_multiplier_TB.vcd"
+[dumpfile_mtime] "Mon Sep  1 03:12:07 2014"
+[dumpfile_size] 6047
+[savefile] "/home/oscar/Repos/j1/hdl/multiplier/mult_32/sim_mult.gtkw"
+[timestart] 406800
+[size] 1366 692
+[pos] -1 -29
+*-17.000000 965100 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top_multiplier_TB.
+[sst_width] 223
+[signals_width] 94
+[sst_expanded] 1
+[sst_vpaned_height] 184
+@28
+top_multiplier_TB.uut.clk
+@24
+top_multiplier_TB.uut.A[15:0]
+top_multiplier_TB.uut.B[15:0]
+top_multiplier_TB.uut.pp[31:0]
+@28
+top_multiplier_TB.uut.done
+[pattern_trace] 1
+[pattern_trace] 0

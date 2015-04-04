@@ -1,0 +1,6 @@
+MO control_mult NULL ../control_mult.v vlg3A/control__mult.bin 1414534545
+MO rsr NULL ../rsr.v vlg53/rsr.bin 1414534545
+MO lsr NULL ../lsr.v vlg3D/lsr.bin 1414534545
+MO acc NULL ../acc.v vlg4B/acc.bin 1414534545
+MO mult_32 NULL ../mult_32.v vlg56/mult__32.bin 1414534545
+MO comp NULL ../comp.v vlg3F/comp.bin 1414534545
