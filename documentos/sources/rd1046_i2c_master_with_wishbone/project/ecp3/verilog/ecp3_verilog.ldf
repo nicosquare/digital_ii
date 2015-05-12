@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="ecp3_Verilog" device="LFE3-17EA-6FTN256C" default_implementation="ecp3_Verilog">
+    <Options/>
+    <Implementation title="ecp3_Verilog" dir="ecp3_Verilog" description="ecp3_Verilog" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="i2c_master_wb_top"/>
+        <Source name="../../../Source/Verilog/i2c_master_bit_ctrl.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../Source/Verilog/i2c_master_byte_ctrl.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../Source/Verilog/i2c_master_defines.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../Source/Verilog/i2c_master_registers.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../Source/Verilog/i2c_master_wb_top.v" type="Verilog" type_short="Verilog">
+            <Options top_module="i2c_master_wb_top"/>
+        </Source>
+        <Source name="../../../Source/Verilog/timescale.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="ecp3_Verilog.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="ecp3_Verilog1.sty"/>
+</BaliProject>

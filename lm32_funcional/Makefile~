@@ -7,19 +7,19 @@ VINCDIR=                                  \
 
 SYN_SRC=
 
-SIM_SRC=                                  \
-	system_tb.v                           \
+SIM_SRC=                                   \
+	system_tb.v                        \
 	../sim/sram/sram16.v               \
 	../sim/unisims/BUFG.v              \
 	../sim/unisims/DCM.v
 
-SRC=                                      \
-	../system.v                              \
+SRC=                                       \
+	../system.v                        \
 	../rtl/lac/lac.v                   \
 	../rtl/lac/uart.v                  \
 	../rtl/lac/dp_ram.v                \
 	../rtl/lm32/lm32_cpu.v             \
-	../rtl/lm32/lm32_instruction_unit.v	\
+	../rtl/lm32/lm32_instruction_unit.v\
 	../rtl/lm32/lm32_decoder.v         \
 	../rtl/lm32/lm32_simtrace.v        \
 	../rtl/lm32/lm32_load_store_unit.v \
@@ -36,7 +36,12 @@ SRC=                                      \
 	../rtl/wb_timer/wb_timer.v         \
 	../rtl/wb_gpio/wb_gpio.v           \
 	../rtl/wb_conbus/conbus.v          \
-	../rtl/wb_conbus/conbus_arb.v      
+	../rtl/wb_conbus/conbus_arb.v 	   \
+	../rtl/wb_i2c/i2c_master_wb_top.v  \
+	../rtl/wb_i2c/i2c_master_registers.v  \
+	../rtl/wb_i2c/i2c_master_defines.v  \
+	../rtl/wb_i2c/i2c_master_byte_ctrl.v  \
+	../rtl/wb_i2c/i2c_master_bit_ctrl.v  	    		     
 
 #############################################################################
 # Synthesis constants

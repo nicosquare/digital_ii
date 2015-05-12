@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="xo2_verilog" device="LCMXO2-1200HC-4TG100C" default_implementation="xo2_verilog">
+    <Options/>
+    <Implementation title="xo2_verilog" dir="xo2_verilog" description="xo2_verilog" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="i2c_master_wb_top"/>
+        <Source name="../../../source/verilog/i2c_master_bit_ctrl.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../source/verilog/i2c_master_byte_ctrl.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../source/verilog/i2c_master_defines.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../source/verilog/i2c_master_registers.v" type="Verilog" type_short="Verilog">
+            <Options/>
+        </Source>
+        <Source name="../../../source/verilog/i2c_master_wb_top.v" type="Verilog" type_short="Verilog">
+            <Options top_module="i2c_master_wb_top"/>
+        </Source>
+        <Source name="../../../source/verilog/timescale.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="../../../testbench/verilog/i2c_slave_model.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="../../../testbench/verilog/timescale.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="../../../testbench/verilog/tst_bench_top.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="../../../testbench/verilog/wb_master_model.v" type="Verilog" type_short="Verilog" syn_sim="SimOnly">
+            <Options/>
+        </Source>
+        <Source name="xo2_verilog.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="xo2_verilog1.sty"/>
+</BaliProject>
