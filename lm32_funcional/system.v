@@ -305,32 +305,51 @@ wb_bram #(
 // i2c0
 //---------------------------------------------------------------------------
 
+wire	i2c0_scl;
+wire	i2c0_sda;
+
 i2c_master_wb_top #(
-	.ARST_LVL(1'b0)
+	.ARST_LVL(1'b1)
 ) i2c0 (
+	//Whishbone connection
 	.wb_clk_i( clk ),
 	.wb_rst_i( ~rst ),
-	.wb_adr_i( uart0_adr ),
-	.wb_dat_i( uart0_dat_w ),
-	.wb_dat_o( uart0_dat_r ),
-	.wb_stb_i( uart0_stb ),
-	.wb_cyc_i( uart0_cyc ),
-	.wb_we_i(  uart0_we ),
-	.wb_sel_i( uart0_sel ),
-	.wb_ack_o( uart0_ack ),
+	//
+	.arst_i( gnd ),
+	.wb_adr_i( i2c0_adr[7:0] ),
+	.wb_dat_i( i2c0_dat_w[7:0]),
+	.wb_dat_o( i2c0_dat_r[7:0]),
+	.wb_stb_i( i2c0_stb ),
+	.wb_cyc_i( i2c0_cyc ),
+	.wb_we_i(  i2c0_we ),
+	.wb_sel_i( i2c0_sel ),
+	.wb_ack_o( i2c0_ack ),
+	// I2C connection
+	.scl( i2c0_scl ),
+	.sda( i2c0_sda )
 
-	// wishbone signals
+);
 
-	input        arst_i;       // asynchronous reset
-	input  [2:0] wb_adr_i;     // lower address bits
-	input  [7:0] wb_dat_i;     // databus input
-	output [7:0] wb_dat_o;     // databus output
-	input        wb_we_i;      // write enable input
-	input        wb_stb_i;     // stobe/core select signal
-	input        wb_cyc_i;     // valid bus cycle input
-	output       wb_ack_o;     // bus cycle acknowledge output
-	output       wb_inta_o;    // interrupt request signal output
+//---------------------------------------------------------------------------
+// General Purpose IO
+//---------------------------------------------------------------------------
 
+wire [7:0] 	gpio0_io;
+wire        gpio0_irq;
+
+wb_gpio gpio0 (
+	.clk( clk ),
+	.rst( ~rst ),
+	//
+	.wb_adr_i( gpio0_adr    ),
+	.wb_dat_i( gpio0_dat_w  ),
+	.wb_dat_o( gpio0_dat_r  ),
+	.wb_stb_i( gpio0_stb    ),
+	.wb_cyc_i( gpio0_cyc    ),
+	.wb_we_i(  gpio0_we     ),
+	.wb_ack_o( gpio0_ack    ), 
+	// GPIO
+	.gpio_io(gpio0_io)
 );
 
 //---------------------------------------------------------------------------
@@ -351,28 +370,6 @@ wb_timer #(
 	.wb_sel_i( timer0_sel   ),
 	.wb_ack_o( timer0_ack   ), 
 	.intr(     timer0_intr  )
-);
-
-//---------------------------------------------------------------------------
-// General Purpose IO
-//---------------------------------------------------------------------------
-
-wire [7:0] gpio0_io;
-wire        gpio0_irq;
-
-wb_gpio gpio0 (
-	.clk(      clk          ),
-	.rst(    ~rst          ),
-	//
-	.wb_adr_i( gpio0_adr    ),
-	.wb_dat_i( gpio0_dat_w  ),
-	.wb_dat_o( gpio0_dat_r  ),
-	.wb_stb_i( gpio0_stb    ),
-	.wb_cyc_i( gpio0_cyc    ),
-	.wb_we_i(  gpio0_we     ),
-	.wb_ack_o( gpio0_ack    ), 
-	// GPIO
-	.gpio_io(gpio0_io)
 );
 
 endmodule 
