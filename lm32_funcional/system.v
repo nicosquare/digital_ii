@@ -17,7 +17,11 @@ module system
 
 	// UART
 	input       uart_rxd, 
-	output      uart_txd
+	output      uart_txd,
+
+	//I2C
+	inout       scl,
+	inout	    sda 	
 
 );
 
@@ -371,5 +375,12 @@ wb_timer #(
 	.wb_ack_o( timer0_ack   ), 
 	.intr(     timer0_intr  )
 );
+
+
+//----------------------------------------------------------------------------
+// 
+//----------------------------------------------------------------------------
+assign	scl = i2c0_scl;
+assign	sda  = i2c0_sda;
 
 endmodule 
