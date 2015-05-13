@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     			jump(start);
     			break;   
 		default:
-			uart_putstr("**SAKC/bootloader** > \r\n");
+			uart_putstr("Raul carechimba \r\n");
 			break;
 		};
 		c = uart_getchar();
