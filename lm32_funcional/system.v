@@ -45,7 +45,7 @@ wire [31:0]  lm32i_adr,
              i2c0_adr,
              spi0_adr,
              gpio0_adr,
-             timer0_adr,
+             timer0_adr;
 
 // Read/Write bus
 wire [31:0]  lm32i_dat_r,
@@ -61,16 +61,16 @@ wire [31:0]  lm32i_dat_r,
              gpio0_dat_r,
              gpio0_dat_w,
              timer0_dat_r,
-             timer0_dat_w,
+             timer0_dat_w;
 
 // Selector bus             
 wire [3:0]   lm32i_sel,
              lm32d_sel,
              bram0_sel,
              i2c0_sel,
-             spi0_sel;
+             spi0_sel,
 	     gpio0_sel,
-             timer0_sel,
+             timer0_sel;
 
 // Write enable 
 wire         lm32i_we,
@@ -79,7 +79,7 @@ wire         lm32i_we,
              i2c0_we,
              spi0_we,
              gpio0_we,
-             timer0_we,
+             timer0_we;
              
 // Clock cycle
 wire         lm32i_cyc,
@@ -88,7 +88,7 @@ wire         lm32i_cyc,
              i2c0_cyc,
              spi0_cyc,
              gpio0_cyc,
-             timer0_cyc,
+             timer0_cyc;
 
 // Strobe
 wire         lm32i_stb,
@@ -97,7 +97,7 @@ wire         lm32i_stb,
              i2c0_stb,
              spi0_stb,
              gpio0_stb,
-             timer0_stb,
+             timer0_stb;
              
 // Acknowledge
 wire         lm32i_ack,
@@ -106,7 +106,7 @@ wire         lm32i_ack,
              i2c0_ack,
              spi0_ack,
              gpio0_ack,
-             timer0_ack,
+             timer0_ack;
              
 // Only for Master 0,1 (LM32 Data/Interruption)
 wire         lm32i_rty,
@@ -128,9 +128,9 @@ wire [1:0]   lm32i_bte,
 // Interrupts
 //---------------------------------------------------------------------------
 wire [31:0]  intr_n;
-wire         i2c0_intr = 0;
-wire         spi0_intr = 0;
-wire         gpio0_intr = 0;
+wire         i2c0_intr;
+wire         spi0_intr;
+wire         gpio0_intr;
 wire [1:0]   timer0_intr;
 
 assign intr_n = { 28'hFFFFFFF, ~timer0_intr[1], ~timer0_intr[0], ~gpio0_intr, ~spi0_intr, ~i2c0_intr };
@@ -143,8 +143,8 @@ conbus #(
 	.s0_addr(4'h0),		// bram     0x00000000 
 	.s1_addr(4'h1),		// i2c      0x20000000 
 	.s2_addr(4'h2),		// spi      0x40000000 
-	.s3_addr(4'h3)  	// gpio     0x60000000
-	.s3_addr(4'h4)	        // timer    0x80000000 
+	.s3_addr(4'h3),  	// gpio     0x60000000
+	.s4_addr(4'h4)	    // timer    0x80000000 
 
 ) conbus0(
 	.sys_clk( clk ),
@@ -306,28 +306,28 @@ wb_bram #(
 
 
 //---------------------------------------------------------------------------
-// i2c0
+// I2C
 //---------------------------------------------------------------------------
 
 wire	i2c0_scl;
 wire	i2c0_sda;
 
 i2c_master_wb_top #(
-	.ARST_LVL(1'b1)
+	.ARST_LVL(1)
 ) i2c0 (
 	//Whishbone connection
 	.wb_clk_i( clk ),
 	.wb_rst_i( ~rst ),
 	//
 	.arst_i( gnd ),
-	.wb_adr_i( i2c0_adr[7:0] ),
+	.wb_adr_i( i2c0_adr[2:0] ),
 	.wb_dat_i( i2c0_dat_w[7:0]),
 	.wb_dat_o( i2c0_dat_r[7:0]),
 	.wb_stb_i( i2c0_stb ),
 	.wb_cyc_i( i2c0_cyc ),
 	.wb_we_i(  i2c0_we ),
-	.wb_sel_i( i2c0_sel ),
 	.wb_ack_o( i2c0_ack ),
+	.wb_inta_o( i2c0_intr ),
 	// I2C connection
 	.scl( i2c0_scl ),
 	.sda( i2c0_sda )
@@ -335,25 +335,68 @@ i2c_master_wb_top #(
 );
 
 //---------------------------------------------------------------------------
+// SPI
+//---------------------------------------------------------------------------
+
+wire	spi0_miso;
+wire	spi0_mosi;
+wire	spi0_ss;
+wire	spi0_clk;
+
+spi # (
+	.MASTER(1),
+	.SLAVE_NUMBER(1),
+	.DATA_LENGTH(8)
+) spi0 (
+	//Whishbone connection
+	.CLK_I( clk ),
+	.RST_I( ~rst ),
+	//
+	.SPI_ADR_I( spi0_adr[7:0] ),
+	.SPI_DAT_I( spi0_dat_w[7:0]),
+	.SPI_DAT_O( spi0_dat_r[7:0]),
+	.SPI_STB_I( spi0_stb ),
+	.SPI_CYC_I( spi0_cyc ),
+	.SPI_WE_I(  spi0_we ),
+	.SPI_SEL_I( spi0_sel ),
+	.SPI_ACK_O( spi0_ack ),
+	.SPI_INT_O	( spi0_intr ),
+	// SPI connection
+	.MISO_MASTER( spi0_miso ),
+    .MOSI_MASTER( spi0_mosi ),
+    .SS_N_MASTER( spi0_ss ),
+    .SCLK_MASTER( spi0_clk )
+   
+);
+
+//---------------------------------------------------------------------------
 // General Purpose IO
 //---------------------------------------------------------------------------
 
-wire [7:0] 	gpio0_io;
-wire        gpio0_irq;
+wire [31:0] gpio0_pad_r,
+	    gpio0_pad_w,
+	    gpio0_padoe;
+wire        gpio0_clk;
 
-wb_gpio gpio0 (
-	.clk( clk ),
-	.rst( ~rst ),
+gpio_top gpio0 (
+	//Whishbone connection
+	.wb_clk_i( clk ),
+	.wb_rst_i( ~rst ),
 	//
-	.wb_adr_i( gpio0_adr    ),
+	.wb_adr_i( gpio0_adr[7:0] ),
 	.wb_dat_i( gpio0_dat_w  ),
 	.wb_dat_o( gpio0_dat_r  ),
 	.wb_stb_i( gpio0_stb    ),
 	.wb_cyc_i( gpio0_cyc    ),
 	.wb_we_i(  gpio0_we     ),
+	.wb_sel_i( gpio0_sel 	),
 	.wb_ack_o( gpio0_ack    ), 
-	// GPIO
-	.gpio_io(gpio0_io)
+	.wb_inta_o( gpio0_intr),
+	// GPIO connection
+	.ext_pad_i(gpio0_pad_r),
+	.ext_pad_o(gpio0_pad_w),
+	.ext_padoe_o(gpio0_padoe),
+	.clk_pad_i(gpio0_clk)
 );
 
 //---------------------------------------------------------------------------
@@ -362,8 +405,9 @@ wb_gpio gpio0 (
 wb_timer #(
 	.clk_freq(   clk_freq  )
 ) timer0 (
-	.clk(      clk          ),
-	.reset(    ~rst          ),
+	//Whishbone connection
+	.clk( clk ),
+	.reset( ~rst ),
 	//
 	.wb_adr_i( timer0_adr   ),
 	.wb_dat_i( timer0_dat_w ),

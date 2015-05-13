@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="xp2_vhdl" device="LFXP2-5E-5FT256C" default_implementation="xp2_vhdl">
+    <Options/>
+    <Implementation title="xp2_vhdl" dir="xp2_vhdl" description="xp2_vhdl" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="spi"/>
+        <Source name="../../../source/vhdl/spi.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="spi"/>
+        </Source>
+        <Source name="xp2_vhdl.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="xp2_vhdl1.sty"/>
+</BaliProject>

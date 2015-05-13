@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="xo2_vhdl" device="LCMXO2-1200HC-6TG144C" default_implementation="xo2_vhdl">
+    <Options/>
+    <Implementation title="xo2_vhdl" dir="xo2_vhdl" description="xo2_vhdl" synthesis="lse" default_strategy="Strategy1">
+        <Options def_top="spi"/>
+        <Source name="../../../source/vhdl/spi.vhd" type="VHDL" type_short="VHDL">
+            <Options top_module="spi"/>
+        </Source>
+        <Source name="xo2_vhdl.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="xo2_vhdl1.sty"/>
+</BaliProject>

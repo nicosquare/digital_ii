@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BaliProject version="3.2" title="xp2_verilog" device="LFXP2-5E-5FT256C" default_implementation="xp2_verilog">
+    <Options/>
+    <Implementation title="xp2_verilog" dir="xp2_verilog" description="xp2_verilog" synthesis="synplify" default_strategy="Strategy1">
+        <Options def_top="spi"/>
+        <Source name="../../../source/verilog/spi_wb.v" type="Verilog" type_short="Verilog">
+            <Options top_module="spi"/>
+        </Source>
+        <Source name="xp2_verilog.lpf" type="Logic Preference" type_short="LPF">
+            <Options/>
+        </Source>
+    </Implementation>
+    <Strategy name="Strategy1" file="xp2_verilog1.sty"/>
+</BaliProject>

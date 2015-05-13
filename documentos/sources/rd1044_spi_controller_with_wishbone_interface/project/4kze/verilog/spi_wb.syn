@@ -1,0 +1,12 @@
+JDF B
+// Created by Version 1.3 
+PROJECT spi_wb
+DESIGN spi_wb Normal
+DEVKIT LC4256ZE-5TN144C
+ENTRY Pure Verilog HDL
+TESTFIXTURE ..\..\..\Testbench\verilog\Spi_wb_tb1.v
+MODULE ..\..\..\Source\verilog\Spi_wb.v
+MODSTYLE spi Normal
+SYNTHESIS_TOOL Synplify
+SIMULATOR_TOOL ActiveHDL
+TOPMODULE spi
