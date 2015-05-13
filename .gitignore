@@ -1,3 +1,6 @@
 compile-lm32-rtems/*
 lm32_funcional/build/*
+lm32_funcional/.idea/
+*~
 *.bit
+
