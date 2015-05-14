@@ -1,0 +1,33 @@
+//------------------------------------------------
+Manual basico para subir cambios a repositorio
+//------------------------------------------------
+
+En la carpeta base de donde tenga el repositorio local:
+
+1) git init // Inicializa el repositorio local
+2) git status // Muestra el estado de cambios entre el respositorio de GitHub y su repositorio local
+3) Lo que se busca es que esos con cambios que le salen indicados se tome un decisión sobre qué hacer con ellos:
+
+3.1) git add ***RUTA DEL ARCHIVO*** // Si los cambios son correctos
+ó
+3.2) git checkout ***RUTA DEL ARCHIVO*** // Si los cambios deben ser descartados
+
+Siempre debe dejarse todo en verde, es decir, ya tome una decisión para cada cambio detectado.
+	
+4) Una vez se haya completado el paso 3 (es mandatorio que se haya completado) se encapsulan todos los cambios en un commit, que tiene la opción de indicar que cambios va a subir
+
+git commit -m "***SU MENSAJE***"
+
+Procurar hacer los mensajes en ingles, es universal
+
+5) Ahora, debe bajarse la versión más reciente del repositorio, es importante no hacer este paso antes, pues podría borrar los cambios que haya hecho (perder trabajo). Una vez más es mandatorio hacer el paso 4. Para bajar la versión actual del repositorio:
+
+git pull origin master
+
+Donde origin es el alias del repositorio y master la rama principal (en nuestro caso la única). ** Para ver los repos agregados git remote -v ***. Cuando se ejecuta este comando, se descargan los archivos del repositorio y se comparan con los del commit, es el punto donde debe poner atención a no borrar trabajo de otros.
+
+6) Una vez resueltos los conflictos del paso 5, se sube la info:
+
+git push -u origin master
+
+Fin
