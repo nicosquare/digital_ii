@@ -50,9 +50,9 @@ Guión del enlazador y mapa de memoria
  .data          0x0000000000860274        0x0 crt0ram.o
  .data          0x0000000000860274        0x0 main.o
  .data          0x0000000000860274        0xc soc-hw.o
-                0x0000000000860274                uart0
+                0x0000000000860274                gpio0
                 0x0000000000860278                timer0
-                0x000000000086027c                gpio0
+                0x000000000086027c                uart0
  *(.data1)
                 0x0000000000860280                _gp = ALIGN (0x10)
  *(.sdata .sdata.* .gnu.linkonce.s.*)
@@ -87,17 +87,17 @@ OUTPUT(image elf32-lm32)
  .debug_info    0x0000000000000000      0x131 main.o
  .debug_info    0x0000000000000131      0x2d1 soc-hw.o
 
-.debug_line     0x0000000000000000      0x26c
- .debug_line    0x0000000000000000      0x140 main.o
- .debug_line    0x0000000000000140      0x12c soc-hw.o
+.debug_line     0x0000000000000000      0x260
+ .debug_line    0x0000000000000000      0x134 main.o
+ .debug_line    0x0000000000000134      0x12c soc-hw.o
 
 .debug_frame    0x0000000000000000       0xa0
  .debug_frame   0x0000000000000000       0x30 main.o
  .debug_frame   0x0000000000000030       0x70 soc-hw.o
 
-.debug_loc      0x0000000000000000      0x19a
- .debug_loc     0x0000000000000000      0x143 main.o
- .debug_loc     0x0000000000000143       0x57 soc-hw.o
+.debug_loc      0x0000000000000000      0x184
+ .debug_loc     0x0000000000000000      0x12d main.o
+ .debug_loc     0x000000000000012d       0x57 soc-hw.o
 
 .debug_pubnames
                 0x0000000000000000       0xbc
@@ -119,11 +119,11 @@ OUTPUT(image elf32-lm32)
  .debug_aranges
                 0x0000000000000020       0x20 soc-hw.o
 
-.debug_str      0x0000000000000000      0x17a
- .debug_str     0x0000000000000000       0xb7 main.o
-                                         0xcf (tamaño antes de la relajación)
- .debug_str     0x00000000000000b7       0xc3 soc-hw.o
-                                        0x156 (tamaño antes de la relajación)
+.debug_str      0x0000000000000000      0x180
+ .debug_str     0x0000000000000000       0xbd main.o
+                                         0xd5 (tamaño antes de la relajación)
+ .debug_str     0x00000000000000bd       0xc3 soc-hw.o
+                                        0x15c (tamaño antes de la relajación)
 
 .comment        0x0000000000000000       0x11
  .comment       0x0000000000000000       0x11 main.o

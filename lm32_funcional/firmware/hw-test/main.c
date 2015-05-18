@@ -41,6 +41,8 @@ int main()
     char *str = test2;
     uint32_t i;
     
+    prueba();
+    
 //    for (i = 0; i < 4; i++)
  //       test2[i] = 'l';
   //  glob[0]  = 'g';

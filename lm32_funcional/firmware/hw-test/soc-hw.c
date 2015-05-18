@@ -1,11 +1,25 @@
 #include "soc-hw.h"
 
-uart_t   *uart0  = (uart_t *)   0x20000000;
-timer_t  *timer0 = (timer_t *)  0x40000000;
-gpio_t   *gpio0  = (gpio_t *)   0x60000000;
+gpio_t   *gpio0  = (gpio_t *)   0x40000000;
+timer_t  *timer0 = (timer_t *)  0x50000000;
+uart_t   *uart0  = (uart_t *)   0x60000000;
 
 isr_ptr_t isr_table[32];
 
+void prueba()
+{
+	uint32_t i;
+	
+	for(;;){
+		
+		for(i=0; i<4; i++) {
+			uart_putstr("tic...");    
+			msleep(1000);
+		}
+	
+	}	
+
+}
 
 void tic_isr();
 /***************************************************************************

@@ -11,7 +11,9 @@ module system
 	parameter   uart_baud_rate   = 115200
 ) (
 	input       clk,
-
+	// Debug 
+	output            led,
+	input             rst,
 	// I2C
 	inout       	i2c_scl,
 	inout	    	i2c_sda, 	
@@ -21,13 +23,13 @@ module system
 					spi_ss,
 					spi_clk,
 	// GPIO
-	input[31:0]		gpio_pad_r,
-	output[31:0]	gpio_pad_w,
-					gpio_padoe,
-	input			gpio_clk
+	//input[31:0]		gpio_pad_r,
+	//output[31:0]	gpio_pad_w,
+	//				gpio_padoe,
+	//input			gpio_clk,
 	// UART - Debug purposes
 	input       	uart_rxd, 
-	output      	uart_txd,
+	output      	uart_txd
 
 );
 
@@ -158,9 +160,8 @@ conbus #(
 	.s1_addr(3'b010),	// i2c      0x20000000 
 	.s2_addr(3'b011),	// spi      0x30000000 
 	.s3_addr(3'b100),	// gpio     0x40000000
-	.s4_addr(3'b101)	// timer    0x50000000 
-	.s5_addr(3'b101)	// uart     0x50000000 - Debug purposes
-
+	.s4_addr(3'b101),	// timer    0x50000000 
+	.s5_addr(3'b110)	// uart     0x60000000 - Debug purposes
 ) conbus0(
 	.sys_clk( clk ),
 	.sys_rst( ~rst ),
@@ -258,7 +259,7 @@ conbus #(
 	.s4_we_o(   timer0_we    ),
 	.s4_cyc_o(  timer0_cyc   ),
 	.s4_stb_o(  timer0_stb   ),
-	.s4_ack_i(  timer0_ack   )
+	.s4_ack_i(  timer0_ack   ),
 	// Slave5 uart
 	.s5_dat_i(  uart0_dat_r ),
 	.s5_dat_o(  uart0_dat_w ),
@@ -475,24 +476,25 @@ wb_uart #(
 // Assignment of external pins
 //----------------------------------------------------------------------------
 
-// UART - Debug purposes
-assign uart_txd = uart0_txd;
-assign uart_rxd	= uart0_rxd;
-
 // I2C
 assign i2c_scl = i2c0_scl;
 assign i2c_sda	= i2c0_sda;
 
 // SPI
-assign spi_miso = spi0_miso;
+assign spi0_miso = spi_miso;
 assign spi_mosi = spi0_mosi;
-assign spi_ss = spi_ss;
-assign spi_clk = spi_clk;
+assign spi_ss = spi0_ss;
+assign spi_clk = spi0_clk;
 
 // GPIO
-assign gpio_pad_r = gpio0_pad_r;
-assign gpio_pad_w = gpio0_pad_w;
-assign gpio_padoe = gpio0_padoe;
-assign gpio_clk = gpio0_clk;
+//assign gpio0_pad_r = gpio_pad_r;
+//assign gpio_pad_w = gpio0_pad_w;
+//assign gpio_padoe = gpio0_padoe;
+//assign gpio_clk = gpio0_clk;
+
+// UART - Debug purposes
+assign uart_txd = uart0_txd;
+assign uart0_rxd = uart_rxd;
+assign led = ~rst;
 
 endmodule 

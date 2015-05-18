@@ -41,8 +41,8 @@ SRC=    					\
 	../rtl/wb_gpio/gpio_top.v		\
 	../rtl/wb_gpio/gpio_defines.v		\
 	../rtl/wb_timer/wb_timer.v         	\
-	../rtl/wb_uart/wb_uart.v           	
-
+	../rtl/wb_uart/wb_uart.v         	\
+	../rtl/wb_uart/uart.v  	
 	
 #############################################################################
 # Synthesis constants

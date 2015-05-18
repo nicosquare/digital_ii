@@ -27,6 +27,9 @@ int main(int argc, char **argv)
 
 	c = '*'; // print msg on first iteration
 	for(;;) {
+	
+		uart_putstr("Raul carechimba \r\n");
+	
 		uint32_t start, size; 
 
 		switch (c) {

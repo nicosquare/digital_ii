@@ -1,7 +1,7 @@
-LM32_CC=lm32-linux-gcc
-LM32_LD=lm32-linux-ld
-LM32_OBJCOPY=lm32-linux-objcopy
-LM32_OBJDUMP=lm32-linux-objdump
+LM32_CC=lm32-rtems4.11-gcc
+LM32_LD=lm32-rtems4.11-ld
+LM32_OBJCOPY=lm32-rtems4.11-objcopy
+LM32_OBJDUMP=lm32-rtems4.11-objdump
 
 SREC2VRAM ?= ../../tools/srec2vram/srec2vram
 VRAMFILE=image.ram

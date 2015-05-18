@@ -103,6 +103,5 @@ char uart_getchar();
 extern timer_t  *timer0;
 extern uart_t   *uart0; 
 extern gpio_t   *gpio0; 
-extern uint32_t *sram0; 
 
 #endif // SPIKEHW_H

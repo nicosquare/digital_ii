@@ -1,9 +1,8 @@
 #include "soc-hw.h"
 
-uart_t   *uart0  = (uart_t *)   0x20000000;
-timer_t  *timer0 = (timer_t *)  0x40000000;
-gpio_t   *gpio0  = (gpio_t *)   0x60000000;
-// uint32_t *sram0  = (uint32_t *) 0x40000000;
+gpio_t   *gpio0  = (gpio_t *)   0x40000000;
+timer_t  *timer0 = (timer_t *)  0x50000000;
+uart_t   *uart0  = (uart_t *)   0x60000000;
 
 uint32_t msec = 0;
 

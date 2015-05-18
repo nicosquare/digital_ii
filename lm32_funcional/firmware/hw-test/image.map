@@ -1,0 +1,164 @@
+
+Se asignan símbolos comunes
+Símbolo común       tamaño            fichero
+
+p                   0x4               main.o
+p2                  0x4               main.o
+isr_table           0x80              soc-hw.o
+tic_msec            0x4               soc-hw.o
+
+Configuración de la Memoria
+
+Nombre           Origen             Longitud           Atributos
+ram              0x0000000000000000 0x0000000000001000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Guión del enlazador y mapa de memoria
+
+                0x0000000000000000                __DYNAMIC = 0x0
+                0x0000000000000000                _RAM_START = 0x0
+                0x0000000000001000                _RAM_SIZE = 0x1000
+                0x0000000000001000                _RAM_END = (_RAM_START + _RAM_SIZE)
+
+.text           0x0000000000000000      0x7ec
+                0x0000000000000000                _ftext = .
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x0000000000000000      0x208 crt0ram.o
+                0x0000000000000000                _start
+                0x0000000000000140                irq_enable
+                0x000000000000014c                irq_disable
+                0x0000000000000158                irq_set_mask
+                0x0000000000000160                irq_get_mask
+                0x0000000000000168                jump
+                0x000000000000016c                halt
+                0x00000000000001f8                get_sp
+                0x0000000000000200                get_gp
+ .text          0x0000000000000208      0x3a4 main.o
+                0x0000000000000208                writeint
+                0x0000000000000268                test2
+                0x0000000000000284                test
+                0x00000000000002ac                main
+ .text          0x00000000000005ac      0x240 soc-hw.o
+                0x00000000000005ac                isr_null
+                0x00000000000005b0                tic_isr
+                0x00000000000005dc                irq_handler
+                0x0000000000000640                isr_init
+                0x0000000000000664                isr_register
+                0x000000000000067c                isr_unregister
+                0x000000000000069c                msleep
+                0x00000000000006d0                nsleep
+                0x0000000000000700                tic_init
+                0x0000000000000744                uart_init
+                0x0000000000000748                uart_getchar
+                0x000000000000076c                uart_putchar
+                0x0000000000000790                uart_putstr
+                0x00000000000007c4                prueba
+                0x00000000000007ec                _etext = .
+
+.rodata         0x00000000000007ec      0x110
+                0x00000000000007ec                . = ALIGN (0x4)
+                0x00000000000007ec                _frodata = .
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.str1.4
+                0x00000000000007ec      0x110 main.o
+ .rodata.str1.4
+                0x0000000000000000        0x8 soc-hw.o
+ *(.rodata1)
+                0x00000000000008fc                _erodata = .
+
+.data           0x00000000000008fc       0x14
+                0x00000000000008fc                . = ALIGN (0x4)
+                0x00000000000008fc                _fdata = .
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x00000000000008fc        0x0 crt0ram.o
+ .data          0x00000000000008fc        0x8 main.o
+                0x00000000000008fc                glob
+ .data          0x0000000000000904        0xc soc-hw.o
+                0x0000000000000904                gpio0
+                0x0000000000000908                timer0
+                0x000000000000090c                uart0
+ *(.data1)
+                0x0000000000000910                _gp = ALIGN (0x10)
+ *(.sdata .sdata.* .gnu.linkonce.s.*)
+                0x0000000000000910                _edata = .
+
+.bss            0x0000000000000910       0x8c
+                0x0000000000000910                . = ALIGN (0x4)
+                0x0000000000000910                _fbss = .
+ *(.dynsbss)
+ *(.sbss .sbss.* .gnu.linkonce.sb.*)
+ *(.scommon)
+ *(.dynbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x0000000000000910        0x0 crt0ram.o
+ .bss           0x0000000000000910        0x0 main.o
+ .bss           0x0000000000000910        0x0 soc-hw.o
+ *(COMMON)
+ COMMON         0x0000000000000910        0x8 main.o
+                0x0000000000000910                p
+                0x0000000000000914                p2
+ COMMON         0x0000000000000918       0x84 soc-hw.o
+                0x0000000000000918                isr_table
+                0x0000000000000998                tic_msec
+                0x000000000000099c                _ebss = .
+                0x000000000000099c                _end = .
+                0x0000000000000ffc                PROVIDE (_fstack, ((ORIGIN (ram) + 0x1000) - 0x4))
+LOAD crt0ram.o
+LOAD main.o
+LOAD soc-hw.o
+OUTPUT(image elf32-lm32)
+
+.debug_abbrev   0x0000000000000000      0x33f
+ .debug_abbrev  0x0000000000000000      0x1a2 main.o
+ .debug_abbrev  0x00000000000001a2      0x19d soc-hw.o
+
+.debug_info     0x0000000000000000      0x838
+ .debug_info    0x0000000000000000      0x3a3 main.o
+ .debug_info    0x00000000000003a3      0x495 soc-hw.o
+
+.debug_line     0x0000000000000000      0x6ee
+ .debug_line    0x0000000000000000      0x448 main.o
+ .debug_line    0x0000000000000448      0x2a6 soc-hw.o
+
+.debug_frame    0x0000000000000000      0x140
+ .debug_frame   0x0000000000000000       0x50 main.o
+ .debug_frame   0x0000000000000050       0xf0 soc-hw.o
+
+.debug_loc      0x0000000000000000      0x488
+ .debug_loc     0x0000000000000000      0x378 main.o
+ .debug_loc     0x0000000000000378      0x110 soc-hw.o
+
+.debug_pubnames
+                0x0000000000000000      0x165
+ .debug_pubnames
+                0x0000000000000000       0x51 main.o
+ .debug_pubnames
+                0x0000000000000051      0x114 soc-hw.o
+
+.debug_pubtypes
+                0x0000000000000000       0x85
+ .debug_pubtypes
+                0x0000000000000000       0x36 main.o
+ .debug_pubtypes
+                0x0000000000000036       0x4f soc-hw.o
+
+.debug_aranges  0x0000000000000000       0x40
+ .debug_aranges
+                0x0000000000000000       0x20 main.o
+ .debug_aranges
+                0x0000000000000020       0x20 soc-hw.o
+
+.debug_ranges   0x0000000000000000       0x38
+ .debug_ranges  0x0000000000000000       0x20 main.o
+ .debug_ranges  0x0000000000000020       0x18 soc-hw.o
+
+.debug_str      0x0000000000000000      0x202
+ .debug_str     0x0000000000000000      0x100 main.o
+                                        0x116 (tamaño antes de la relajación)
+ .debug_str     0x0000000000000100      0x102 soc-hw.o
+                                        0x1d2 (tamaño antes de la relajación)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 main.o
+                                         0x12 (tamaño antes de la relajación)
+ .comment       0x0000000000000000       0x12 soc-hw.o
