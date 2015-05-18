@@ -12,7 +12,7 @@ Guión del enlazador y mapa de memoria
                 0x0000000000001000                _BRAM_SIZE = 0x1000
                 0x0000000000861000                _BRAM_END = (_BRAM_START + _BRAM_SIZE)
 
-.text           0x0000000000860000      0x1c4
+.text           0x0000000000860000      0x1d4
                 0x0000000000860000                _ftext = .
  *(.text .stub .text.* .gnu.linkonce.t.*)
  .text          0x0000000000860000       0x8c crt0ram.o
@@ -25,54 +25,56 @@ Guión del enlazador y mapa de memoria
  .text          0x000000000086008c       0x60 main.o
                 0x000000000086008c                read_uint32
                 0x00000000008600cc                main
- .text          0x00000000008600ec       0xd8 soc-hw.o
+ .text          0x00000000008600ec       0xe8 soc-hw.o
                 0x00000000008600ec                sleep
-                0x0000000000860120                tic_init
-                0x0000000000860144                uart_init
-                0x0000000000860148                uart_getchar
-                0x000000000086016c                uart_putchar
-                0x0000000000860190                uart_putstr
-                0x00000000008601c4                _etext = .
+                0x0000000000860128                tic_init
+                0x0000000000860154                uart_init
+                0x0000000000860158                uart_getchar
+                0x000000000086017c                uart_putchar
+                0x00000000008601a0                uart_putstr
+                0x00000000008601d4                _etext = .
 
-.rodata         0x00000000008601c4       0x14
-                0x00000000008601c4                . = ALIGN (0x4)
-                0x00000000008601c4                _frodata = .
+.rodata         0x00000000008601d4       0x18
+                0x00000000008601d4                . = ALIGN (0x4)
+                0x00000000008601d4                _frodata = .
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.str1.4
-                0x00000000008601c4       0x14 main.o
+                0x00000000008601d4       0x14 main.o
+ .rodata.cst4   0x00000000008601e8        0x4 soc-hw.o
+                                          0x8 (tamaño antes de la relajación)
  *(.rodata1)
-                0x00000000008601d8                _erodata = .
+                0x00000000008601ec                _erodata = .
 
-.data           0x00000000008601d8        0xc
-                0x00000000008601d8                . = ALIGN (0x4)
-                0x00000000008601d8                _fdata = .
+.data           0x00000000008601ec        0xc
+                0x00000000008601ec                . = ALIGN (0x4)
+                0x00000000008601ec                _fdata = .
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x00000000008601d8        0x0 crt0ram.o
- .data          0x00000000008601d8        0x0 main.o
- .data          0x00000000008601d8        0xc soc-hw.o
-                0x00000000008601d8                gpio0
-                0x00000000008601dc                timer0
-                0x00000000008601e0                uart0
+ .data          0x00000000008601ec        0x0 crt0ram.o
+ .data          0x00000000008601ec        0x0 main.o
+ .data          0x00000000008601ec        0xc soc-hw.o
+                0x00000000008601ec                gpio0
+                0x00000000008601f0                timer0
+                0x00000000008601f4                uart0
  *(.data1)
-                0x00000000008601f0                _gp = ALIGN (0x10)
+                0x0000000000860200                _gp = ALIGN (0x10)
  *(.sdata .sdata.* .gnu.linkonce.s.*)
-                0x00000000008601e4                _edata = .
+                0x00000000008601f8                _edata = .
 
-.bss            0x00000000008601e4        0x4
-                0x00000000008601e4                . = ALIGN (0x4)
-                0x00000000008601e4                _fbss = .
+.bss            0x00000000008601f8        0x4
+                0x00000000008601f8                . = ALIGN (0x4)
+                0x00000000008601f8                _fbss = .
  *(.dynsbss)
  *(.sbss .sbss.* .gnu.linkonce.sb.*)
  *(.scommon)
  *(.dynbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x00000000008601e4        0x0 crt0ram.o
- .bss           0x00000000008601e4        0x0 main.o
- .bss           0x00000000008601e4        0x4 soc-hw.o
-                0x00000000008601e4                msec
+ .bss           0x00000000008601f8        0x0 crt0ram.o
+ .bss           0x00000000008601f8        0x0 main.o
+ .bss           0x00000000008601f8        0x4 soc-hw.o
+                0x00000000008601f8                msec
  *(COMMON)
-                0x00000000008601e8                _ebss = .
-                0x00000000008601e8                _end = .
+                0x00000000008601fc                _ebss = .
+                0x00000000008601fc                _end = .
                 0x0000000000860ffc                PROVIDE (_fstack, ((ORIGIN (bram) + 0x1000) - 0x4))
 LOAD crt0ram.o
 LOAD main.o
