@@ -27,9 +27,7 @@ int main(int argc, char **argv)
 
 	c = '*'; // print msg on first iteration
 	for(;;) {
-	
-		uart_putstr("Raul carechimba \r\n");
-	
+		
 		uint32_t start, size; 
 
 		switch (c) {
@@ -39,7 +37,7 @@ int main(int argc, char **argv)
     			for (p = (int8_t *) start; p < (int8_t *) (start+size); p++)
     				*p = uart_getchar();
     			break;
-		case 'd': // download
+			case 'd': // download
     			start = read_uint32();
     			size  = read_uint32();
     			for (p = (int8_t *) start; p < (int8_t *) (start+size); p++)
@@ -49,11 +47,10 @@ int main(int argc, char **argv)
     			start = read_uint32();
     			jump(start);
     			break;   
-		default:
-			uart_putstr("Raul carechimba \r\n");
-			break;
+			default:
+				uart_putstr("Raul carechimba \r\n");
+				break;
 		};
-		c = uart_getchar();
 	}
 }
 

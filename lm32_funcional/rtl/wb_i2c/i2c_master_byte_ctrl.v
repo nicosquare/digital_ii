@@ -86,10 +86,9 @@
 
 // synopsys translate_off
 //`include "..\..\testbench\verilog\timescale.v"
-`include "timescale.v"
+`include "../rtl/wb_i2c/timescale.v"
 // synopsys translate_on
-
-`include "i2c_master_defines.v"
+`include "../rtl/wb_i2c/i2c_master_defines.v"
 
 module i2c_master_byte_ctrl (
 	clk, rst, nReset, //ena, 

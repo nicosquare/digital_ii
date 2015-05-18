@@ -51,7 +51,7 @@
 //                          |the synchronous reset for clock_cnt
 // --------------------------------------------------------------------
 
-`timescale 1ns/1ps
+`timescale 1ns/10ps
 
 module spi #(
    parameter  SHIFT_DIRECTION = 0,

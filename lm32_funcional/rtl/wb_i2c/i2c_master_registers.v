@@ -47,7 +47,8 @@
 //-------------------------------------------------------------------------
 
 //`include "..\..\testbench\verilog\timescale.v"
-`include "timescale.v"
+`include "../rtl/wb_i2c/timescale.v"
+
 module i2c_master_registers (wb_clk_i, rst_i, wb_rst_i,wb_dat_i,wb_adr_i,
                   wb_wacc, i2c_al, i2c_busy, 
                   done,irxack,
