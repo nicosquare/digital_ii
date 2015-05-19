@@ -37,11 +37,18 @@ extern uint32_t tic_msec;
 
 int main()
 {
-    char test2[] = "Lokalerstr";
-    char *str = test2;
-    uint32_t i;
-    
-    prueba();
+	uint32_t aa=1;
+
+  for(;;)
+  {
+  prueba(); 			
+  }
+ uart_putchar('b');
+   uart_putchar(2*3);
+   uart_putchar(6/3);
+   char test2[] = "Lokalerstr";
+   char *str = test2;
+   uint32_t i;
     
 //    for (i = 0; i < 4; i++)
  //       test2[i] = 'l';

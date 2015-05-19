@@ -1,31 +1,42 @@
 #include "soc-hw.h"
 
-gpio_t   *gpio0  = (gpio_t *)   0x40000000;
-timer_t  *timer0 = (timer_t *)  0x50000000;
-uart_t   *uart0  = (uart_t *)   0x60000000;
+spi_t   *spi0   = (spi_t *)    0x30000000;
+gpio_t  *gpio0  = (gpio_t *)   0x40000000;
+timer_t *timer0 = (timer_t *)  0x50000000;
+uart_t  *uart0  = (uart_t *)   0x60000000;
 
 isr_ptr_t isr_table[32];
 
 void prueba()
-{
-	uint32_t i;
+{	
+	   
+	   volatile uint32_t miso = spi0->rxtx;
 	
-	for(;;){
-		
-		for(i=0; i<4; i++) {
-			uart_putstr("tic...");    
-			msleep(1000);
-		}
-	
-	}	
+	   for (;;)
+	   {
+		   spi0->cs=1;	
+		   char i;
+		   spi0->cs=0;	
+		   spi0->rxtx=0xFF;
+		   uart_putstr(miso);//uart_putchar(miso);//miso;//Enviar solo el miso ;)
 
+		   //spi0->divisor=4;
+		   //spi0->nop2=5;
+
+		   for(i=0; i<2; i++) 
+		   {
+		   uart_putstr("..\n");    
+		   msleep(1000);
+		   }
+
+           }		
+	
 }
-
 void tic_isr();
 /***************************************************************************
  * IRQ handling
  */
-void isr_null()
+void isr_null()	
 {
 }
 

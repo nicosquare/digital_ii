@@ -9,9 +9,10 @@
 #define RAM_START 0x40000000
 #define RAM_SIZE  0x04000000
 
-#define FCPU      50000000
+#define FCPU      100000000
 
 #define UART_RXBUFSIZE 32
+
 
 /****************************************************************************
  * Types
@@ -63,6 +64,7 @@ typedef struct {
 void msleep(uint32_t msec);
 void nsleep(uint32_t nsec);
 
+void prueba();
 void tic_init();
 
 
@@ -96,6 +98,22 @@ void uart_putchar(char c);
 void uart_putstr(char *str);
 char uart_getchar();
 
+/***************************************************************************
+ * SPI0
+ */
+
+typedef struct {
+   volatile uint32_t rxtx;
+   volatile uint32_t nop1;
+   volatile uint32_t cs;
+   volatile uint32_t nop2;
+   volatile uint32_t divisor;
+} spi_t;
+
+void spi_init();
+void spi_putchar(char c);
+char spi_getchar();
+
 
 /***************************************************************************
  * Pointer to actual components
@@ -103,5 +121,6 @@ char uart_getchar();
 extern timer_t  *timer0;
 extern uart_t   *uart0; 
 extern gpio_t   *gpio0; 
+extern uint32_t *sram0; 
 
 #endif // SPIKEHW_H
