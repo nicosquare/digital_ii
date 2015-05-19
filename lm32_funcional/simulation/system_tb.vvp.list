@@ -15,6 +15,7 @@
 ../rtl/wb_conbus/conbus.v
 ../rtl/wb_conbus/conbus_arb.v
 ../rtl/wb_bram/wb_bram.v
+<<<<<<< HEAD
 ../rtl/wb_i2c/i2c_master_wb_top.v
 ../rtl/wb_i2c/i2c_master_registers.v
 ../rtl/wb_i2c/i2c_master_defines.v
@@ -24,6 +25,18 @@
 ../rtl/wb_spi/spi_wb.v
 ../rtl/wb_gpio/gpio_top.v
 ../rtl/wb_gpio/gpio_defines.v
+=======
+../rtl/wb_i2c/timescale.v
+../rtl/wb_i2c/i2c_master_defines.v
+../rtl/wb_i2c/i2c_master_wb_top.v
+../rtl/wb_i2c/i2c_master_registers.v
+../rtl/wb_i2c/i2c_master_byte_ctrl.v
+../rtl/wb_i2c/i2c_master_bit_ctrl.v
+../rtl/wb_spi/spi_wb.v
+../rtl/wb_gpio/timescale.v
+../rtl/wb_gpio/gpio_defines.v
+../rtl/wb_gpio/gpio_top.v
+>>>>>>> 53eb151c6089235f97d319fe4816d93c51a86ec8
 ../rtl/wb_timer/wb_timer.v
 ../rtl/wb_uart/wb_uart.v
 ../rtl/wb_uart/uart.v

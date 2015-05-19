@@ -90,7 +90,7 @@
 
 // synopsys translate_off
 //`include "..\..\testbench\verilog\timescale.v"
-`include "timescale.v"
+`include "../rtl/wb_i2c/timescale.v"
 // synopsys translate_on
 
 
