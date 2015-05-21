@@ -130,14 +130,13 @@ module i2c_master_wb_top(
 	// variable declarations
 	//
 
-
     // registers declaration             
 	wire  [15:0] prer; // clock prescale register 
-	wire  [ 7:0] ctr;  // control register        	
-	wire  [ 7:0] txr;  // transmit register       	
-	wire [ 7:0] rxr;  // receive register         	
-	wire  [ 7:0] cr;   // command register        	
-	wire [ 7:0] sr;   // status register          	
+	wire  [7:0]  ctr;  // control register        	
+	wire  [7:0]  txr;  // transmit register       	
+	wire  [7:0]  rxr;  // receive register         	
+	wire  [7:0]  cr;   // command register        	
+	wire  [7:0]  sr;   // status register          	
 	
 	// done signal: command completed, clear command register
 	wire done;
@@ -161,11 +160,11 @@ module i2c_master_wb_top(
 	wire core_ack, core_rxd; // output from bit controller to input of byte controller
 
 	// assign scl and sda to individual wires
-        wire scl_pad_i = scl;
+	wire scl_pad_i = scl;
 	wire scl_pad_o;       
 	wire scl_padoen_o; 
 
-        wire sda_pad_i = sda;     
+    wire sda_pad_i = sda;     
 	wire sda_pad_o;       
 	wire sda_padoen_o; 
 
@@ -179,7 +178,7 @@ module i2c_master_wb_top(
 	// generate wishbone signals
 	wire wb_wacc = wb_cyc_i & wb_stb_i & wb_we_i;
 	
-        // decode command register
+	// decode command register
 	wire sta  = cr[7];
 	wire sto  = cr[6];
 	wire rd   = cr[5];
@@ -191,8 +190,7 @@ module i2c_master_wb_top(
 	assign core_en = ctr[7];
 	assign ien = ctr[6];
 
-
-        // Wishbone outputs - wb_ack_o, wb_dat_o, and wb_inta_o//
+	// Wishbone outputs - wb_ack_o, wb_dat_o, and wb_inta_o//
 	// generate acknowledge output signal
 	always @(posedge wb_clk_i)
 	  wb_ack_o <= #1 wb_cyc_i & wb_stb_i & ~wb_ack_o; // because timing is always honored
@@ -212,15 +210,15 @@ module i2c_master_wb_top(
 	  endcase
 	end
 	
-        // generate interrupt request signals
+	// generate interrupt request signals
 	always @(posedge wb_clk_i or negedge rst_i)
 	  if (!rst_i)
 	    wb_inta_o <= #1 1'b0;
 	  else if (wb_rst_i)
 	    wb_inta_o <= #1 1'b0;
 	  else
-	    //wb_inta_o <= #1 irq_flag && ien; // interrupt signal is only generated when IEN (interrupt enable bit is set)
-        wb_inta_o <= #1 sr[0] && ien; // interrupt signal is only generated when IEN (interrupt enable bit is set)
+		//wb_inta_o <= #1 irq_flag && ien; // interrupt signal is only generated when IEN (interrupt enable bit is set)
+		wb_inta_o <= #1 sr[0] && ien; // interrupt signal is only generated when IEN (interrupt enable bit is set)
 
 	
 
@@ -279,26 +277,26 @@ module i2c_master_wb_top(
 		  .rst_i(rst_i), 
 		  .wb_rst_i(wb_rst_i),
 		  .wb_dat_i(wb_dat_i),
-                  .wb_wacc(wb_wacc), 
-                  .wb_adr_i(wb_adr_i),
-                  .i2c_al(i2c_al), 
-                  .i2c_busy(i2c_busy),
-                  .done(done),
-                  //.sta(sta),
-                  .irxack(irxack),
-                  //.rd(rd), 
-                  //.wr(wr),
-                  //.iack(iack),
+		  .wb_wacc(wb_wacc), 
+		  .wb_adr_i(wb_adr_i),
+		  .i2c_al(i2c_al), 
+		  .i2c_busy(i2c_busy),
+		  .done(done),
+		  //.sta(sta),
+		  .irxack(irxack),
+		  //.rd(rd), 
+		  //.wr(wr),
+		  //.iack(iack),
 		  .prer(prer),                  
 		  .ctr(ctr), 
-                  .txr(txr), 
-                  .cr(cr),  
-                  .sr(sr)
-                  );
+		  .txr(txr), 
+		  .cr(cr),  
+		  .sr(sr)
+	);
                   
-          // generate scl and sda pins
-	  assign scl = (scl_padoen_o ? 1'bz : scl_pad_o);
-	  assign sda = (sda_padoen_o ? 1'bz : sda_pad_o);
+	// generate scl and sda pins
+	assign scl = (scl_padoen_o ? 1'bz : scl_pad_o);
+	assign sda = (sda_padoen_o ? 1'bz : sda_pad_o);
 	  
 	  
 

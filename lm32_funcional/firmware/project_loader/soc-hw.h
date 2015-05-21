@@ -57,8 +57,12 @@ void     jump(uint32_t addr);
 #define UART_BUSY 0x10                    // TX Busy
 
 typedef struct {
-   volatile uint32_t ucr;
-   volatile uint32_t rxtx;
+   volatile uint32_t cr;
+   volatile uint32_t tr;
+   volatile uint32_t tr;
+   volatile uint32_t tr;
+   volatile uint32_t tr;
+   volatile uint32_t tr;
 } uart_t;
 
 void uart_init();

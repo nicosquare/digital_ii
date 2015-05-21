@@ -6,8 +6,8 @@
 
 module system
 #(
-	//parameter   bootram_file     = "../firmware/boot0-serial/image.ram",
-	parameter   bootram_file     = "../firmware/hw-test/image.ram",	
+	parameter   bootram_file     = "../firmware/boot0-serial/image.ram",
+	//parameter   bootram_file     = "../firmware/hw-test/image.ram",	
 	parameter   clk_freq         = 100000000,
 	parameter   uart_baud_rate   = 115200
 ) (
@@ -379,8 +379,8 @@ spi # (
 	.RST_I( ~rst ),
 	//
 	.SPI_ADR_I( spi0_adr[7:0] ),
-	.SPI_DAT_I( spi0_dat_w[7:0]),
-	.SPI_DAT_O( spi0_dat_r[7:0]),
+	.SPI_DAT_I( spi0_dat_w),
+	.SPI_DAT_O( spi0_dat_r),
 	.SPI_STB_I( spi0_stb ),
 	.SPI_CYC_I( spi0_cyc ),
 	.SPI_WE_I(  spi0_we ),

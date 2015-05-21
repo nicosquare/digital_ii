@@ -96,7 +96,7 @@ module spi #(
 
    //slave port
    input [7:0]         SPI_ADR_I;		//8 bit width - changed from 32 bits
-   input [7:0]         SPI_DAT_I;		//8 bit width - changed from 32 bits
+   input [31:0]        SPI_DAT_I;		//8 bit width - changed from 32 bits
    input               SPI_WE_I;
    input               SPI_STB_I;
    input               SPI_CYC_I;
@@ -104,7 +104,7 @@ module spi #(
    input [2:0]         SPI_CTI_I  /* synthesis syn_keep=1 opt="keep"*/;
    input [1:0]         SPI_BTE_I  /* synthesis syn_keep=1 opt="keep"*/;
    input               SPI_LOCK_I /* synthesis syn_keep=1 opt="keep"*/;
-   output [7:0]        SPI_DAT_O;		//8 bit width - changed from 32 bits
+   output [31:0]       SPI_DAT_O;		//8 bit width - changed from 32 bits
    output              SPI_ACK_O;
    output              SPI_INT_O;
    output              SPI_ERR_O;
@@ -134,7 +134,7 @@ module spi #(
    //register access
    wire                    SPI_INT_O;
    reg                     SPI_ACK_O;
-   reg [7:0]               SPI_DAT_O;			//8 bit width - changed from 32 bits
+   reg [31:0]              SPI_DAT_O;			//8 bit width - changed from 32 bits
    reg [SLAVE_NUMBER-1:0]  SS_N_MASTER;
    reg                     SCLK_MASTER;
    reg                     MOSI_MASTER;
@@ -148,7 +148,7 @@ module spi #(
    reg                     reg_wr;
    reg                     reg_rd;
    reg                     read_wait_done;
-   reg [7:0]               latch_s_data;		//8 bit width - changed from 32 bits
+   reg [31:0]              latch_s_data;		//8 bit width - changed from 32 bits
    reg [DATA_LENGTH-1:0]   reg_rxdata;
    reg [DATA_LENGTH-1:0]   reg_txdata;
    reg [DATA_LENGTH-1:0]   rx_shift_data;
