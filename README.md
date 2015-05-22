@@ -38,5 +38,5 @@ De acuerdo a los límites tanto de presupuesto como de alcance de conocimientos 
 Por último, entrando en lo detalles más relevantes para el desarrollo del proyecto, se encontró en la web [Hacked Gadgets](http://hackedgadgets.com/2014/11/27/syma-x5c-1-quadcopter-review-and-teardown/) un análisis de este cuadricóptero, en donde sus componentes serán los definitorios para definir el alcance del proyecto, estos se discutirán con mas profundidad en posteriores secciones.
 
 ***
-# Para información más detallada, visitar la [Wiki](https://github.com/nicosquare/digital_ii/wiki) de este proyecto.
+### Para información más detallada, visitar la [Wiki](https://github.com/nicosquare/digital_ii/wiki) de este proyecto.
 ***
