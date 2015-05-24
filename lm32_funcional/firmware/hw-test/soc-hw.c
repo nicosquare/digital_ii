@@ -7,29 +7,34 @@ uart_t  *uart0  = (uart_t *)   0x60000000;
 
 isr_ptr_t isr_table[32];
 
+uint32_t tic_msec;
+
+
 void prueba()
 {	
-	   
+	   spi0->cs=1;	
+	   char i;
 	   volatile uint32_t miso = spi0->rxtx;
+	   spi0->cs=0;	
+	   spi0->rxtx=0xFF;
+	   //uart_putstr(miso);//uart_putchar(miso);//miso;//Enviar solo el miso ;)
+
+	   //spi0->divisor=4;
+	   //spi0->nop2=5;
+
+	   for(i=0; i<3; i++) 
+           {
+	   uart_putstr("..\n");    
+	   msleep(1000);
+	   }
 	
-	   for (;;)
-	   {
-		   spi0->cs=1;	
-		   char i;
-		   spi0->cs=0;	
-		   spi0->rxtx=0xFF;
-		   uart_putstr(miso);//uart_putchar(miso);//miso;//Enviar solo el miso ;)
+	   uart_putstr( "Timer Interrupt counter: " );
+	   writeint( tic_msec ); 
+	   uart_putchar('\n');   
+	   gpio0->oe = 0x0000002f; 
+	   gpio0->out = 0x0000002f; 
 
-		   //spi0->divisor=4;
-		   //spi0->nop2=5;
-
-		   for(i=0; i<2; i++) 
-		   {
-		   uart_putstr("..\n");    
-		   msleep(1000);
-		   }
-
-           }		
+           		
 	
 }
 void tic_isr();
@@ -70,7 +75,7 @@ void isr_unregister(int irq)
 /***************************************************************************
  * TIMER Functions
  */
-void msleep(uint32_t msec)
+/*void msleep(uint32_t msec)
 {
 	uint32_t tcr;
 
@@ -82,6 +87,22 @@ void msleep(uint32_t msec)
 	do {
 		//halt();
  		tcr = timer0->tcr1;
+ 	} while ( ! (tcr & TIMER_TRIG) );
+}
+*/
+
+void msleep(uint32_t msec)
+{
+	uint32_t tcr;
+
+	// Use timer0.0
+	timer0->compare0 = (FCPU/1000)*msec;
+	timer0->counter0 = 0;
+	timer0->tcr0 = TIMER_EN;
+
+	do {
+		//halt();
+ 		tcr = timer0->tcr0;
  	} while ( ! (tcr & TIMER_TRIG) );
 }
 
@@ -101,22 +122,25 @@ void nsleep(uint32_t nsec)
 }
 
 
-uint32_t tic_msec;
-
-void tic_isr()
+void tic_isr() // INTERRUPCIÓN DE EL TIMER QUE SE ACTIVA CUANDO SE LLEGA A LA COMPARACIÓN  DE EK TIMER CERO
 {
 	tic_msec++;
 	timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
 }
 
-void tic_init()
+void tic_init() //Inicialización de el timer
 {
 	tic_msec = 0;
 
 	// Setup timer0.0
-	timer0->compare0 = (FCPU/10000);
-	timer0->counter0 = 0;
-	timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+	//timer0->compare0 = (FCPU/10000);
+	//timer0->counter0 = 0;
+	timer0->tcr0   = TIMER_EN | TIMER_AR | TIMER_IRQEN; //Configuración de los timer
+
+	//Setup timer0.1
+	//timer0->compare1 = (FCPU/10000);
+	//timer0->counter1 = 0;
+	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;	
 
 	isr_register(1, &tic_isr);
 }

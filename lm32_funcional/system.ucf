@@ -5,7 +5,7 @@
 
 ## Clock signal
 NET "clk"   LOC = "E3"	| IOSTANDARD = "LVCMOS33";					#Bank = 35, Pin name = IO_L12P_T1_MRCC_35,					Sch name = CLK100MHZ
-#NET "clk" TNM_NET = clk;
+NET "clk" TNM_NET = clk;
 TIMESPEC "TS_clk" = PERIOD "clk" 10000 ps INPUT_JITTER 100 ps;
  
 ## Switches
