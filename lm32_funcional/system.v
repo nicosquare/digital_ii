@@ -6,8 +6,13 @@
 
 module system
 #(
+<<<<<<< HEAD
 	//parameter   bootram_file     = "../firmware/boot0-serial/image.ram",
 	parameter   bootram_file     = "../firmware/hw-test/image.ram",	
+=======
+	parameter   bootram_file     = "../firmware/project_loader/image.ram",
+	//parameter   bootram_file     = "../firmware/hw-test/image.ram",	
+>>>>>>> All slave ok in project_loader Folder. GPIO test Ok
 	parameter   clk_freq         = 100000000,
 	parameter   uart_baud_rate   = 115200
 ) (
@@ -24,10 +29,10 @@ module system
 					spi_ss,
 					spi_clk,
 	// GPIO
-	//input[31:0]		gpio_pad_r,
-	//output[31:0]	gpio_pad_w,
-	//				gpio_padoe,
-	//input			gpio_clk,
+	input[3:0]		gpio_pad_r,
+	output[3:0]	    gpio_pad_w,
+					gpio_padoe,
+	input			gpio_clk,
 	// UART - Debug purposes
 	input       	uart_rxd, 
 	output      	uart_txd
@@ -399,7 +404,7 @@ spi # (
 // General Purpose IO
 //---------------------------------------------------------------------------
 
-wire [31:0] gpio0_pad_r,
+wire [3:0] gpio0_pad_r,
 			gpio0_pad_w,
 			gpio0_padoe;
 wire        gpio0_clk;
@@ -488,10 +493,10 @@ assign spi_ss = spi0_ss;
 assign spi_clk = spi0_clk;
 
 // GPIO
-//assign gpio0_pad_r = gpio_pad_r;
-//assign gpio_pad_w = gpio0_pad_w;
-//assign gpio_padoe = gpio0_padoe;
-//assign gpio_clk = gpio0_clk;
+assign gpio0_pad_r = gpio_pad_r;
+assign gpio_pad_w = gpio0_pad_w;
+assign gpio_padoe = gpio0_padoe;
+assign gpio_clk = gpio0_clk;
 
 // UART - Debug purposes
 assign uart_txd = uart0_txd;

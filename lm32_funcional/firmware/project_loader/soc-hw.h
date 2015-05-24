@@ -52,35 +52,51 @@ void     jump(uint32_t addr);
 /****************************************************************************
  * I2C
  ****************************************************************************/
-#define UART_DR   0x01                    // RX Data Ready
-#define UART_ERR  0x02                    // RX Error
-#define UART_BUSY 0x10                    // TX Busy
 
 typedef struct {
-   volatile uint32_t prer;
+   volatile uint32_t prerlo;
+   volatile uint32_t prerhi;
    volatile uint32_t ctr;
+   volatile uint32_t rxr;
+   volatile uint32_t sr;
    volatile uint32_t txr;
-   volatile uint32_t tr;
-   volatile uint32_t tr;
-   volatile uint32_t tr;
-} uart_t;
+   volatile uint32_t cr;
+} i2c_t;
 
-	wire  [15:0] prer; // clock prescale register 
-	wire  [7:0]  ctr;  // control register        	
-	wire  [7:0]  txr;  // transmit register       	
-	wire  [7:0]  rxr;  // receive register         	
-	wire  [7:0]  cr;   // command register        	
-	wire  [7:0]  sr;   // status register    
+/****************************************************************************
+ * SPI
+ ****************************************************************************/
 
-void uart_init();
-void uart_putchar(char c);
-void uart_putstr(char *str);
-char uart_getchar();
+typedef struct {
+   volatile uint32_t rxr;
+   volatile uint32_t txr;
+   volatile uint32_t sr;
+   volatile uint32_t cr;
+   volatile uint32_t ssr;
+} spi_t;
 
+/****************************************************************************
+ * GPIO
+ ****************************************************************************/
+
+void gpio_test();
+
+typedef struct {
+   volatile uint32_t in;
+   volatile uint32_t out;
+   volatile uint32_t oe;
+   volatile uint32_t int_e;
+   volatile uint32_t ptrig;
+   volatile uint32_t aux;
+   volatile uint32_t ctrl;
+   volatile uint32_t int_s;
+   volatile uint32_t eclk;
+   volatile uint32_t nec;
+} gpio_t;
 
 /****************************************************************************
  * Timer
- */
+ ****************************************************************************/
 #define TIMER_EN     0x08    // Enable Timer
 #define TIMER_AR     0x04    // Auto-Reload
 #define TIMER_IRQEN  0x02    // IRQ Enable
@@ -100,23 +116,9 @@ void nsleep(uint32_t nsec);
 
 void tic_init();
 
-
-/***************************************************************************
- * GPIO0
- */
-typedef struct {
-	volatile uint32_t ctrl;
-	volatile uint32_t dummy1;
-	volatile uint32_t dummy2;
-	volatile uint32_t dummy3;
-	volatile uint32_t in;
-	volatile uint32_t out;
-	volatile uint32_t oe;
-} gpio_t;
-
 /***************************************************************************
  * UART0
- */
+ ****************************************************************************/
 #define UART_DR   0x01                    // RX Data Ready
 #define UART_ERR  0x02                    // RX Error
 #define UART_BUSY 0x10                    // TX Busy
@@ -135,9 +137,13 @@ char uart_getchar();
 /***************************************************************************
  * Pointer to actual components
  */
-extern timer_t  *timer0;
-extern uart_t   *uart0; 
-extern gpio_t   *gpio0; 
-extern uint32_t *sram0; 
+  
+  
+extern i2c_t   *i2c0;
+extern spi_t   *spi0;
+extern gpio_t   *gpio0;
+extern timer_t   *timer0;
+extern uart_t   *uart0;
+
 
 #endif // SPIKEHW_H

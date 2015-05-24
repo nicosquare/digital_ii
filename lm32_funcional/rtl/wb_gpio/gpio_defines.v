@@ -100,13 +100,13 @@
 //
 // Default is 16.
 //
-`define GPIO_IOS 32
+`define GPIO_IOS 4
 
 //depending on number of GPIO_IOS, define this...
 // for example: if there is 26 GPIO_IOS, define GPIO_LINES26
 //
 
-`define GPIO_LINES31
+`define GPIO_LINES4
 
 //
 // Undefine this one if you don't want to remove GPIO block from your design
@@ -249,10 +249,10 @@
 // if the number of I/O lines is in range 17-24, GPIO_WB_BYTES3 is defined,
 // if the number of I/O lines is in range 25-32, GPIO_WB_BYTES4 is defined,
 
-`define GPIO_WB_BYTES4
+//`define GPIO_WB_BYTES4
 //`define GPIO_WB_BYTES3
 //`define GPIO_WB_BYTES2
-//`define GPIO_WB_BYTES1
+`define GPIO_WB_BYTES1
 
 `endif
 

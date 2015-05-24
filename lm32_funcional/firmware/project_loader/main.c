@@ -26,6 +26,7 @@ int main(int argc, char **argv)
 	// Initialize UART
 
 	c = '*'; // print msg on first iteration
+	gpio_test();
 	for(;;) {
 		
 		uint32_t start, size; 
