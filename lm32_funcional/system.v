@@ -6,13 +6,10 @@
 
 module system
 #(
-<<<<<<< HEAD
-	//parameter   bootram_file     = "../firmware/boot0-serial/image.ram",
-	parameter   bootram_file     = "../firmware/hw-test/image.ram",	
-=======
+
 	parameter   bootram_file     = "../firmware/project_loader/image.ram",
 	//parameter   bootram_file     = "../firmware/hw-test/image.ram",	
->>>>>>> All slave ok in project_loader Folder. GPIO test Ok
+
 	parameter   clk_freq         = 100000000,
 	parameter   uart_baud_rate   = 115200
 ) (
