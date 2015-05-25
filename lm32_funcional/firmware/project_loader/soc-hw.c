@@ -12,6 +12,46 @@ uint32_t msec = 0;
 /***************************************************************************
  * General utility functions
  */
+
+
+/*****************************************************************
+*I2C Functions
+*/
+void i2c_test()
+{
+	i2c0->txr = 0x4B + 1;
+	i2c0->cr = 0x90;
+	while(!(i2c0->sr & 0x01));
+	i2c0->txr = 0x00;
+	i2c0->cr = 0x10;
+	while(!(i2c0->sr & 0x01));
+	i2c0->txr = 0x4B;
+	i2c0->cr = 0x90;
+	while(!(i2c0->sr & 0x01));
+	i2c0->cr = 0x20;
+	while(!(i2c0->sr & 0x01));
+	i2c0->cr = 0x28;
+}
+
+/*****************************************************************
+*SPI Functions
+*/
+void spi_test()
+{
+ spi0->ssr=0xAAAA;
+}
+
+/*****************************************************************
+*GPIO Functions
+*/
+void gpio_test()
+{
+ gpio0->out=0xA;
+}
+
+/*****************************************************************
+*Timer Functions
+*/
 void sleep(int msec)
 {
 	uint32_t tcr;
@@ -35,12 +75,10 @@ void tic_init()
 	timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
 }
 
-/*****************************************************************
-*GPIO
-*/
-void gpio_test()
+
+void timer_test()
 {
- gpio0->out=0xA;
+	sleep(1000);
 }
 
 /***************************************************************************
@@ -75,5 +113,10 @@ void uart_putstr(char *str)
 		uart_putchar(*c);
 		c++;
 	}
+}
+
+void uart_test()
+{
+	uart_putstr("Hola_prueba_uart_test\r\n");
 }
 
