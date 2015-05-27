@@ -12,27 +12,29 @@ uint32_t tic_msec;
 
 void prueba()
 {	
-	   spi0->cs=1;	
-	   char i;
+	
+	int i;
+	
+	   /*spi0->cs=1;	
 	   volatile uint32_t miso = spi0->rxtx;
 	   spi0->cs=0;	
-	   spi0->rxtx=0xFF;
+	   spi0->rxtx=0xFF;*/
 	   //uart_putstr(miso);//uart_putchar(miso);//miso;//Enviar solo el miso ;)
 
 	   //spi0->divisor=4;
 	   //spi0->nop2=5;
 
 	   for(i=0; i<3; i++) 
-           {
+	   {
 	   uart_putstr("..\n");    
 	   msleep(1000);
 	   }
 	
-	   uart_putstr( "Timer Interrupt counter: " );
+	   /*uart_putstr( "Timer Interrupt counter: " );
 	   writeint( tic_msec ); 
 	   uart_putchar('\n');   
 	   gpio0->oe = 0x0000002f; 
-	   gpio0->out = 0x0000002f; 
+	   gpio0->out = 0x0000002f; */
 
            		
 	
@@ -75,32 +77,18 @@ void isr_unregister(int irq)
 /***************************************************************************
  * TIMER Functions
  */
-/*void msleep(uint32_t msec)
-{
-	uint32_t tcr;
-
-	// Use timer0.1
-	timer0->compare1 = (FCPU/1000)*msec;
-	timer0->counter1 = 0;
-	timer0->tcr1 = TIMER_EN;
-
-	do {
-		//halt();
- 		tcr = timer0->tcr1;
- 	} while ( ! (tcr & TIMER_TRIG) );
-}
-*/
 
 void msleep(uint32_t msec)
 {
 	uint32_t tcr;
 
 	// Use timer0.0
-	timer0->compare0 = (FCPU/1000)*msec;
+	timer0->compare0 = FCPU*msec/1000;
 	timer0->counter0 = 0;
 	timer0->tcr0 = TIMER_EN;
 
-	do {
+	do 
+	{
 		//halt();
  		tcr = timer0->tcr0;
  	} while ( ! (tcr & TIMER_TRIG) );
@@ -111,7 +99,7 @@ void nsleep(uint32_t nsec)
 	uint32_t tcr;
 
 	// Use timer0.1
-	timer0->compare1 = (FCPU/1000000)*nsec;
+	timer0->compare1 = FCPU*msec/1000000;
 	timer0->counter1 = 0;
 	timer0->tcr1 = TIMER_EN;
 
@@ -133,13 +121,9 @@ void tic_init() //Inicialización de el timer
 	tic_msec = 0;
 
 	// Setup timer0.0
-	//timer0->compare0 = (FCPU/10000);
-	//timer0->counter0 = 0;
 	timer0->tcr0   = TIMER_EN | TIMER_AR | TIMER_IRQEN; //Configuración de los timer
 
 	//Setup timer0.1
-	//timer0->compare1 = (FCPU/10000);
-	//timer0->counter1 = 0;
 	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;	
 
 	isr_register(1, &tic_isr);

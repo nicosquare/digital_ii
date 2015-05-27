@@ -7,8 +7,8 @@
 module system
 #(
 
-	parameter   bootram_file     = "../firmware/project_loader/image.ram",
-	//parameter   bootram_file     = "../firmware/hw-test/image.ram",	
+	//parameter   bootram_file     = "../firmware/project_loader/image.ram",
+	parameter   bootram_file     = "../firmware/hw-test/image.ram",	
 
 	parameter   clk_freq         = 100000000,
 	parameter   uart_baud_rate   = 115200
@@ -152,7 +152,7 @@ wire         spi0_intr;
 wire         gpio0_intr;
 wire [1:0]   timer0_intr;
 
-assign intr_n = { 27'hFFFFFFF, ~timer0_intr[1], ~timer0_intr[0], ~gpio0_intr, ~spi0_intr, ~i2c0_intr };
+assign intr_n = { 27'hFFFFFFF, ~spi0_intr, ~timer0_intr[1], ~gpio0_intr, ~timer0_intr[0], ~i2c0_intr };
 
 //---------------------------------------------------------------------------
 // Wishbone Interconnect
