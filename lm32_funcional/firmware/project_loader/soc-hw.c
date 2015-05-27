@@ -53,20 +53,37 @@ void gpio_test()
 *Timer Functions
 */
 void sleep(int msec)
+
+void msleep(uint32_t msec)
+{
+	uint32_t tcr;
+
+	// Use timer0.0
+	timer0->compare0 = FCPU*msec/1000;
+	timer0->counter0 = 0;
+	timer0->tcr0 = TIMER_EN;
+
+	do 
+	{
+		//halt();
+ 		tcr = timer0->tcr0;
+ 	} while ( ! (tcr & TIMER_TRIG) );
+}
+
+void nsleep(uint32_t nsec)
 {
 	uint32_t tcr;
 
 	// Use timer0.1
-	timer0->compare1 = (FCPU/1000)*msec;
+	timer0->compare1 = FCPU*nsec/1000000;
 	timer0->counter1 = 0;
-	timer0->tcr1 = TIMER_EN | TIMER_IRQEN;
+	timer0->tcr1 = TIMER_EN;
 
 	do {
 		//halt();
  		tcr = timer0->tcr1;
  	} while ( ! (tcr & TIMER_TRIG) );
 }
-
 void tic_init()
 {
 	// Setup timer0.0

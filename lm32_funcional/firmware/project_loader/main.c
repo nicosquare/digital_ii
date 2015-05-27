@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 	for(;;)
 	{
 		i2c_test();
-		sleep(1000);
+		msleep(1000);
 	}
 	//spi_test();
 	//gpio_test();

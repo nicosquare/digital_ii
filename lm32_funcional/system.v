@@ -7,8 +7,8 @@
 module system
 #(
 
-	//parameter   bootram_file     = "../firmware/project_loader/image.ram",
-	parameter   bootram_file     = "../firmware/hw-test/image.ram",	
+	parameter   bootram_file     = "../firmware/project_loader/image.ram",
+	//parameter   bootram_file     = "../firmware/hw-test/image.ram",	
 
 	parameter   clk_freq         = 100000000,
 	parameter   uart_baud_rate   = 115200
