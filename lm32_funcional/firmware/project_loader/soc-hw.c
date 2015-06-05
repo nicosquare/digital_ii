@@ -94,7 +94,49 @@ void tic_init()
 
 void timer_test()
 {
-	msleep(1000);
+	uint32_t nsec = 1000000;
+	
+	// Use timer0.0
+	timer0->compare0 = FCPU*nsec/1000000;
+	timer0->counter0 = 0;
+	
+	// Use timer0.1
+	timer0->compare1 = FCPU*nsec/1000000;
+	timer0->counter1 = 0;
+	
+	// Use timer0.2
+	timer0->compare2 = FCPU*nsec/1000000;
+	timer0->counter2 = 0;
+	
+	// Use timer0.3
+	timer0->compare3 = FCPU*nsec/1000000;
+	timer0->counter3 = 0;
+	
+	// Use timer0.4
+	timer0->compare4 = FCPU*nsec/1000000;
+	timer0->counter4 = 0;
+	
+	// Use timer0.5
+	timer0->compare5 = FCPU*nsec/1000000;
+	timer0->counter5 = 0;
+	
+	// Use timer0.6
+	timer0->compare6 = FCPU*nsec/1000000;
+	timer0->counter6 = 0;
+	
+	// Use timer0.7
+	timer0->compare7 = FCPU*nsec/1000000;
+	timer0->counter7 = 0;
+	
+	// Enable timers
+	timer0->tcr1 = TIMER_EN;
+	timer0->tcr2 = TIMER_EN;
+	timer0->tcr3 = TIMER_EN;
+	timer0->tcr4 = TIMER_EN;
+	timer0->tcr5 = TIMER_EN;
+	timer0->tcr6 = TIMER_EN;
+	timer0->tcr7 = TIMER_EN;
+	
 }
 
 /***************************************************************************

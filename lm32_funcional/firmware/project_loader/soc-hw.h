@@ -109,6 +109,24 @@ typedef struct {
 	volatile uint32_t tcr1;
 	volatile uint32_t compare1;
 	volatile uint32_t counter1;
+	volatile uint32_t tcr2;
+	volatile uint32_t compare2;
+	volatile uint32_t counter2;
+	volatile uint32_t tcr3;
+	volatile uint32_t compare3;
+	volatile uint32_t counter3;
+	volatile uint32_t tcr4;
+	volatile uint32_t compare4;
+	volatile uint32_t counter4;
+	volatile uint32_t tcr5;
+	volatile uint32_t compare5;
+	volatile uint32_t counter5;
+	volatile uint32_t tcr6;
+	volatile uint32_t compare6;
+	volatile uint32_t counter6;
+	volatile uint32_t tcr7;
+	volatile uint32_t compare7;
+	volatile uint32_t counter7;
 } timer_t;
 
 void msleep(uint32_t msec);

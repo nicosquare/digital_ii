@@ -150,9 +150,20 @@ wire [31:0]  intr_n;
 wire         i2c0_intr;
 wire         spi0_intr;
 wire         gpio0_intr;
-wire [1:0]   timer0_intr;
+wire [7:0]   timer0_intr;
 
-assign intr_n = { 27'hFFFFFFF, ~spi0_intr, ~timer0_intr[1], ~gpio0_intr, ~timer0_intr[0], ~i2c0_intr };
+assign intr_n = { 21'h1FFFFF, 
+				  ~timer0_intr[7], 
+				  ~timer0_intr[6], 
+				  ~timer0_intr[5], 
+				  ~timer0_intr[4], 
+				  ~timer0_intr[3], 
+				  ~timer0_intr[2], 
+				  ~timer0_intr[1], 
+				  ~timer0_intr[0], 
+				  ~gpio0_intr, 
+				  ~spi0_intr, 
+				  ~i2c0_intr };
 
 //---------------------------------------------------------------------------
 // Wishbone Interconnect
