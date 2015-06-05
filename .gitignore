@@ -4,4 +4,8 @@ lm32_funcional/simulation/*
 lm32_funcional/.idea/
 *~
 *.bit
+*.d
+*.o
+image*
+
 

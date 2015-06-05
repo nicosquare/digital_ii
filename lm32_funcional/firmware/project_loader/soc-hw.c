@@ -52,7 +52,6 @@ void gpio_test()
 /*****************************************************************
 *Timer Functions
 */
-void sleep(int msec)
 
 void msleep(uint32_t msec)
 {
@@ -95,7 +94,7 @@ void tic_init()
 
 void timer_test()
 {
-	sleep(1000);
+	msleep(1000);
 }
 
 /***************************************************************************

@@ -6,7 +6,7 @@ LM32_OBJDUMP=lm32-rtems4.11-objdump
 SREC2VRAM ?= ../../tools/srec2vram/srec2vram
 VRAMFILE=image.ram
 
-CFLAGS=-MMD -O2 -Wall -g -s -fomit-frame-pointer -mbarrel-shift-enabled   -mmultiply-enabled -mdivide-enabled -msign-extend-enabled
+CFLAGS=-MMD -O2 -Wall -g -s -fomit-frame-pointer -mbarrel-shift-enabled -msign-extend-enabled  -mmultiply-enabled -mdivide-enabled 
 LDFLAGS=-nostdlib -nodefaultlibs -Tlinker.ld 
 SEGMENTS = -j .text -j .rodata -j .data
 
