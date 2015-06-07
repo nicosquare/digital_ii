@@ -9,7 +9,7 @@
 #define RAM_START 0x40000000
 #define RAM_SIZE  0x04000000
 
-#define FCPU      100000000
+#define FCPU      0x05F5E100
 
 #define UART_RXBUFSIZE 32
 
@@ -45,10 +45,6 @@ void     isr_unregister(int irq);
 void     halt();
 void     jump(uint32_t addr);
 
-
-
-inline void writeint(uint32_t val);
-
 /****************************************************************************
  * Peripherals
  ****************************************************************************/
@@ -58,13 +54,13 @@ inline void writeint(uint32_t val);
  ****************************************************************************/
 
 typedef struct {
-   volatile uint32_t prerlo;
-   volatile uint32_t prerhi;
-   volatile uint32_t ctr;
-   volatile uint32_t rxr;
-   volatile uint32_t sr;
-   volatile uint32_t txr;
-   volatile uint32_t cr;
+   volatile uint8_t prerlo;
+   volatile uint8_t prerhi;
+   volatile uint8_t ctr;
+   volatile uint8_t rxr;
+   volatile uint8_t sr;
+   volatile uint8_t txr;
+   volatile uint8_t cr;
 } i2c_t;
 
 /****************************************************************************
@@ -84,7 +80,6 @@ typedef struct {
  ****************************************************************************/
 
 void gpio_test();
-void gpio_output(char output);
 
 typedef struct {
    volatile uint32_t in;
@@ -134,11 +129,9 @@ typedef struct {
 	volatile uint32_t counter7;
 } timer_t;
 
-
 void msleep(uint32_t msec);
 void nsleep(uint32_t nsec);
-uint32_t set_frecuency(uint32_t value);
-uint32_t set_duty(uint32_t value1);
+
 void tic_init();
 
 /***************************************************************************

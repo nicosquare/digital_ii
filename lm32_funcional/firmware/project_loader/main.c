@@ -6,12 +6,9 @@
 
 int main(int argc, char **argv)
 {
-	tic_init();
-	set_frecuency(100000000);
-	set_duty(10000000);
-	tic_isr();
 	for(;;)
 	{
+		i2c_test();
 	}
 	
 	//i2c_test();
