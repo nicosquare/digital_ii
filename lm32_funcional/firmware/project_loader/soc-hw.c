@@ -66,18 +66,50 @@ inline void writeint(uint32_t val)
 */
 void i2c_test()
 {
-	i2c0->txr = 0x4B + 1;
+	uint8_t sr;
+	
+	//uart_putstr("Begin I2C Test");
+	
+	// Set Prescale registers
+	i2c0->prerlo = 0x43;
+	i2c0->prerhi = 0x00;
+	// Enable the core
+	i2c0->cr = 0x80;
+	// Read from register
+	i2c0->txr = 0x0B << 1 + 1;
 	i2c0->cr = 0x90;
-	while(!(i2c0->sr & 0x01));
-	i2c0->txr = 0x00;
+	
+	do 
+	{
+		sr = i2c0->sr;
+ 	} while ( !(i2c0->sr & 0x01) );
+
+	i2c0->txr = 0x0B << 1;
 	i2c0->cr = 0x10;
-	while(!(i2c0->sr & 0x01));
-	i2c0->txr = 0x4B;
+	
+	do 
+	{
+		sr = i2c0->sr;
+ 	} while ( !(i2c0->sr & 0x01) );
+
+	i2c0->txr = 0x0B << 1;
 	i2c0->cr = 0x90;
-	while(!(i2c0->sr & 0x01));
+
+	do 
+	{
+		sr = i2c0->sr;
+ 	} while ( !(i2c0->sr & 0x01) );	
+	
 	i2c0->cr = 0x20;
-	while(!(i2c0->sr & 0x01));
+	
+	do 
+	{
+		sr = i2c0->sr;
+ 	} while ( !(i2c0->sr & 0x01) );
+	
 	i2c0->cr = 0x28;
+	
+	//uart_putstr("End I2C Test");
 }
 
 /*****************************************************************
