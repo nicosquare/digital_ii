@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 	tic_isr();
 	for(;;)
 	{
+		tic_isr();
 	}
 	
 	//i2c_test();
