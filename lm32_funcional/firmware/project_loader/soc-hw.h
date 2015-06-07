@@ -58,14 +58,17 @@ inline void writeint(uint32_t val);
  ****************************************************************************/
 
 typedef struct {
-   volatile uint32_t prerlo;
-   volatile uint32_t prerhi;
-   volatile uint32_t ctr;
-   volatile uint32_t rxr;
-   volatile uint32_t sr;
-   volatile uint32_t txr;
-   volatile uint32_t cr;
+   volatile uint8_t prerlo;
+   volatile uint8_t prerhi;
+   volatile uint8_t ctr;
+   volatile uint8_t rxr;
+   volatile uint8_t sr;
+   volatile uint8_t txr;
+   volatile uint8_t cr;
 } i2c_t;
+
+
+void i2c_test();
 
 /****************************************************************************
  * SPI
