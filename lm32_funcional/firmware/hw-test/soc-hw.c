@@ -7,7 +7,9 @@ uart_t  *uart0  = (uart_t *)   0x60000000;
 
 isr_ptr_t isr_table[32];
 
+
 uint32_t tic_msec;
+uint32_t msec;
 
 
 void prueba()
@@ -113,6 +115,7 @@ void nsleep(uint32_t nsec)
 void tic_isr() // INTERRUPCIÓN DE EL TIMER QUE SE ACTIVA CUANDO SE LLEGA A LA COMPARACIÓN  DE EK TIMER CERO
 {
 	tic_msec++;
+    uart_putstr("tic_isr  \n");   
 	timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
 }
 
