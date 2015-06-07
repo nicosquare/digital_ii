@@ -45,6 +45,10 @@ void     isr_unregister(int irq);
 void     halt();
 void     jump(uint32_t addr);
 
+
+
+inline void writeint(uint32_t val);
+
 /****************************************************************************
  * Peripherals
  ****************************************************************************/
@@ -80,6 +84,7 @@ typedef struct {
  ****************************************************************************/
 
 void gpio_test();
+void gpio_output(char output);
 
 typedef struct {
    volatile uint32_t in;
@@ -129,9 +134,11 @@ typedef struct {
 	volatile uint32_t counter7;
 } timer_t;
 
+
 void msleep(uint32_t msec);
 void nsleep(uint32_t nsec);
-
+uint32_t set_frecuency(uint32_t value);
+uint32_t set_duty(uint32_t value1);
 void tic_init();
 
 /***************************************************************************
