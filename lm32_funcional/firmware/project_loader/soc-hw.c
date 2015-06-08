@@ -67,7 +67,9 @@ inline void writeint(uint32_t val)
 */
 void i2c_test()
 {
-	uint8_t sr;
+	uint8_t sr = 0;
+	uint8_t rx = 0;
+	uint8_t add = 0x08;
 	
 	uart_putstr("Begin I2C Test \n");
 	
@@ -76,45 +78,53 @@ void i2c_test()
 	i2c0->prerhi = 0x00;
 	// Enable the core
 	i2c0->ctr = 0x80;
-	// Read from register
-	i2c0->txrxr = (0x0B << 1) + 1;
-	i2c0->csr = 0x90;
 	
-	do 
+	// 1. Set the Transmit Register TXR with a value of Slave address + Write bit.
+	i2c0->txrxr = (add << 1) + 0;
+	// 2. Set the Command Register CR to 8’h90 to enable the START and WRITE. This starts the transmission on the I2C bus.
+	i2c0->csr = 0x90;
+	// 3. Check the Transfer In Progress (TIP) bit of the Status Register, SR, to make sure the command is done.
+	do 	
 	{
 		sr = i2c0->csr;
-		writeint((sr & 0x02));
- 	} while ( !(sr & 0x02) );
- 	
-	uart_putstr("Out of while");
- 	
-	/*
-	i2c0->txr = (0x0B << 1);
-	i2c0->cr = 0x10;
-	
-	do 
+ 	} while ( sr & 0x20 );
+ 	// 4. Set TRX with the slave memory address, where the data is to be read from.
+	i2c0->txrxr = add << 1;
+	// 5. Set CR with 8’h10 to enable a WRITE to send to the slave memory address.
+	i2c0->csr = 0x10;
+	// 6. Check the TIP bit of SR, to make sure the command is done.
+	do 	
 	{
-		sr = i2c0->sr;
- 	} while ( !(i2c0->sr & 0x01) );
-
-	i2c0->txr = 0x0B << 1;
-	i2c0->cr = 0x90;
-
-	do 
+		sr = i2c0->csr;
+ 	} while ( sr & 0x20 );
+	// 7. Set TRX with a value of Slave address + READ bit.
+	i2c0->txrxr = (add << 1) + 1;
+	// 8. Set CR with the 8’h90 to enable the START (repeated START in this case) and WRITE the value in TXR to the slave device.
+	i2c0->csr = 0x90;
+	// 9. Check the TIP bit of SR, to make sure the command is done.
+	do 	
 	{
-		sr = i2c0->sr;
- 	} while ( !(i2c0->sr & 0x01) );	
+		sr = i2c0->csr;
+ 	} while ( sr & 0x20 );
+	// 10. Set CR with 8’h20 to issue a READ command and then an ACK command. This enables the reading of data from the slave device.
+	i2c0->csr = 0x20;
 	
-	i2c0->cr = 0x20;
+	rx = i2c0->txrxr;
+		
+	uart_putchar(rx);
+	uart_putstr("\n");
 	
-	do 
+	// 11. Check the TIP bit of SR, to make sure the command is done.
+	do 	
 	{
-		sr = i2c0->sr;
- 	} while ( !(i2c0->sr & 0x01) );
+		sr = i2c0->csr;
+ 	} while ( sr & 0x20 );	
+ 
+	// 12. Repeat steps 10 and 11 to continue to read data from the slave device.
+	// 13. When the Master is ready to stop reading from the Slave, set CR to 8’h28. This will read the last byte of data and then issue a NACK.	
+	i2c0->csr = 0x28;
 	
-	i2c0->cr = 0x28;
-	*/
-	//uart_putstr("End I2C Test");
+	uart_putstr("End I2C Test  \n");
 }
 
 /*****************************************************************
