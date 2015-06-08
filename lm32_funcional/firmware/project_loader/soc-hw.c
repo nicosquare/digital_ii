@@ -122,7 +122,15 @@ void i2c_test()
 */
 void spi_test()
 {
- spi0->ssr=0xAAAA;
+	int32_t aux_read;
+	int i = 0;
+	spi0->txr = 0xAA;
+	
+	for(i;i<10;i++){};
+		
+	aux_read = spi0->rxr;
+	
+	writeint(aux_read);
 }
 
 /*****************************************************************
