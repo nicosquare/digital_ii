@@ -119,10 +119,10 @@ always @(posedge wb_clk_i or negedge rst_i )
   else                                                    
     begin                                                 
         if (done | i2c_al)                                
-          cr[7:4] <= #1 4'h0;           // clear command b
+			cr[7:4] <= #1 4'h0;           // clear command b
                                         // or when aribitr
-        cr[2:1] <= #1 2'b0;             // reserved bits  
-        cr[0]   <= #1 2'b0;             // clear IRQ_ACK b
+			cr[2:1] <= #1 2'b0;             // reserved bits  
+			cr[0]   <= #1 2'b0;             // clear IRQ_ACK b
     end                                                   
     
 reg  al;          // status register arbitration lost bit              

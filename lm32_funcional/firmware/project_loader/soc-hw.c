@@ -58,6 +58,7 @@ inline void writeint(uint32_t val)
 			uart_putchar('0'+digit);
 		val <<= 4;
 	}
+	uart_putchar('\n');
 }
 
 
@@ -68,23 +69,27 @@ void i2c_test()
 {
 	uint8_t sr;
 	
-	//uart_putstr("Begin I2C Test");
+	uart_putstr("Begin I2C Test \n");
 	
 	// Set Prescale registers
 	i2c0->prerlo = 0x43;
 	i2c0->prerhi = 0x00;
 	// Enable the core
-	i2c0->cr = 0x80;
+	i2c0->ctr = 0x80;
 	// Read from register
-	i2c0->txr = 0x0B << 1 + 1;
-	i2c0->cr = 0x90;
+	i2c0->txrxr = (0x0B << 1) + 1;
+	i2c0->csr = 0x90;
 	
 	do 
 	{
-		sr = i2c0->sr;
- 	} while ( !(i2c0->sr & 0x01) );
-
-	i2c0->txr = 0x0B << 1;
+		sr = i2c0->csr;
+		writeint((sr & 0x02));
+ 	} while ( !(sr & 0x02) );
+ 	
+	uart_putstr("Out of while");
+ 	
+	/*
+	i2c0->txr = (0x0B << 1);
 	i2c0->cr = 0x10;
 	
 	do 
@@ -108,7 +113,7 @@ void i2c_test()
  	} while ( !(i2c0->sr & 0x01) );
 	
 	i2c0->cr = 0x28;
-	
+	*/
 	//uart_putstr("End I2C Test");
 }
 

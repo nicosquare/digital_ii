@@ -61,10 +61,8 @@ typedef struct {
    volatile uint8_t prerlo;
    volatile uint8_t prerhi;
    volatile uint8_t ctr;
-   volatile uint8_t rxr;
-   volatile uint8_t sr;
-   volatile uint8_t txr;
-   volatile uint8_t cr;
+   volatile uint8_t txrxr;
+   volatile uint8_t csr;
 } i2c_t;
 
 
