@@ -14,8 +14,10 @@ int main(int argc, char **argv)
 	
 	//set_frecuency(100000000); 	
 	//set_duty(10000000);
+	
 	for(;;)
 	{
+		i2c_test();
 	}
 	
 	//i2c_test();
