@@ -6,13 +6,16 @@
 
 int main(int argc, char **argv)
 {
+	// Initialize TIC
+	isr_init();
 	tic_init();
-	set_frecuency(100000000);
-	set_duty(10000000);
-	tic_isr();
+	irq_enable();
+	irq_set_mask(0xffffffff);
+	
+	//set_frecuency(100000000); 	
+	//set_duty(10000000);
 	for(;;)
 	{
-		tic_isr();
 	}
 	
 	//i2c_test();

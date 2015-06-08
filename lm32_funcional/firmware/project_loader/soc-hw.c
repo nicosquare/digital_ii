@@ -11,7 +11,7 @@ uint32_t msec = 0;
 uint32_t compare0Aux;
 uint32_t compare1Aux;
 isr_ptr_t isr_table[32];
-//uint32_t tic_msec;
+uint32_t tic_msec;
 /***************************************************************************
  * General utility functions
  */
@@ -250,6 +250,7 @@ void irq_handler(uint32_t pending)
 void isr_init()
 {
 	int i;
+	uart_putstr("init\n");
 	for(i=0; i<32; i++)
 		isr_table[i] = &isr_null;
 }
@@ -312,11 +313,11 @@ void tic_init() //Inicialización de el timer
 
 	isr_register(1, &tic_isr);
 }
-*/
+
  
  
 
-void tic_isr() //ENTRA ACÁ CADA VEZ QUE EL TIMER CUENTA
+*/void tic_isr() //ENTRA ACÁ CADA VEZ QUE EL TIMER CUENTA
 {
 	uart_putstr("tic_isr \n"); 		
 	//tic_msec++;
@@ -347,7 +348,7 @@ void tic_isr() //ENTRA ACÁ CADA VEZ QUE EL TIMER CUENTA
 }
 
 
- /*
+/* 
 void tic_isr() // INTERRUPCIÓN DE EL TIMER QUE SE ACTIVA CUANDO SE LLEGA A LA COMPARACIÓN  DE EK TIMER CERO
 {
 	tic_msec++;
