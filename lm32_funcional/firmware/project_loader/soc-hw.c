@@ -7,15 +7,27 @@ gpio_t   *gpio0  = (gpio_t *)   0x40000000;
 timer_t  *timer0 = (timer_t *)  0x50000000;
 uart_t   *uart0  = (uart_t *)   0x60000000;
 
-uint32_t msec = 0;
+
+/***************************************************************************
+ * Variables
+ */
+ 
+isr_ptr_t isr_table[32];
+
 uint32_t compare0Aux;
 uint32_t compare1Aux;
-isr_ptr_t isr_table[32];
 uint32_t tic_msec;
+
+/***************************************************************************
+ * Functions
+ */
+ 
+ void tic_isr_0();
+ void tic_isr_1();
+ 
 /***************************************************************************
  * General utility functions
  */
-
 
 void fade_led()
 {	
@@ -40,27 +52,47 @@ void hello_world()
 			msleep(100000);
 		}
 
-		//uart_putstr( "Timer Interrupt counter: " );
-		//writeint( tic_msec ); 	
+		uart_putstr( "Timer Interrupt counter: " );
+		writeint( tic_msec ); 	
 	}
 }
+ 
+/***************************************************************************
+ * IRQ Handling
+ */
 
-
-inline void writeint(uint32_t val)
+void tic_isr();
+ 
+void isr_null()
 {
-	uint32_t i, digit;
-
-	for (i=0; i<8; i++) {
-		digit = (val & 0xf0000000) >> 28;
-		if (digit >= 0xA) 
-			uart_putchar('A'+digit-10);
-		else
-			uart_putchar('0'+digit);
-		val <<= 4;
-	}
-	uart_putchar('\n');
 }
 
+void irq_handler(uint32_t pending)
+{
+	int i;
+
+	for(i=0; i<32; i++) {
+		if (pending & 0x01) (*isr_table[i])();
+		pending >>= 1;
+	}
+}
+
+void isr_init()
+{
+	int i;
+	for(i=0; i<32; i++)
+		isr_table[i] = &isr_null;
+}
+
+void isr_register(int irq, isr_ptr_t isr)
+{
+	isr_table[irq] = isr;
+}
+
+void isr_unregister(int irq)
+{
+	isr_table[irq] = &isr_null;
+}
 
 /*****************************************************************
 *I2C Functions
@@ -155,6 +187,14 @@ void gpio_output(char output)
 {
  gpio0->out=output;
 }
+
+/*
+void pwm_out(char out) // Select output pin for GPIO
+{
+	return gpio_out = out;
+}
+*/
+
 /*****************************************************************
 *Timer Functions
 */
@@ -189,198 +229,60 @@ void nsleep(uint32_t nsec)
  		tcr = timer0->tcr1;
  	} while ( ! (tcr & TIMER_TRIG) );
 }
-/*void tic_init()
-{
-	// Setup timer0.0
-	timer0->compare0 = (FCPU/1000);
-	timer0->counter0 = 0;
-	timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-}
-*/
 
 void timer_test()
 {
-	uint32_t nsec = 1000000;
-	
-	// Use timer0.0
-	timer0->compare0 = FCPU*nsec/1000000;
-	timer0->counter0 = 0;
-	
-	// Use timer0.1
-	timer0->compare1 = FCPU*nsec/1000000;
-	timer0->counter1 = 0;
-	
-	// Use timer0.2
-	timer0->compare2 = FCPU*nsec/1000000;
-	timer0->counter2 = 0;
-	
-	// Use timer0.3
-	timer0->compare3 = FCPU*nsec/1000000;
-	timer0->counter3 = 0;
-	
-	// Use timer0.4
-	timer0->compare4 = FCPU*nsec/1000000;
-	timer0->counter4 = 0;
-	
-	// Use timer0.5
-	timer0->compare5 = FCPU*nsec/1000000;
-	timer0->counter5 = 0;
-	
-	// Use timer0.6
-	timer0->compare6 = FCPU*nsec/1000000;
-	timer0->counter6 = 0;
-	
-	// Use timer0.7
-	timer0->compare7 = FCPU*nsec/1000000;
-	timer0->counter7 = 0;
-	
-	// Enable timers
-	timer0->tcr1 = TIMER_EN;
-	timer0->tcr2 = TIMER_EN;
-	timer0->tcr3 = TIMER_EN;
-	timer0->tcr4 = TIMER_EN;
-	timer0->tcr5 = TIMER_EN;
-	timer0->tcr6 = TIMER_EN;
-	timer0->tcr7 = TIMER_EN;
-	
+	// Put your test here ;)
 }
-
-void tic_isr();
-/***************************************************************************
- * IRQ handling
- */
-void isr_null()	
-{
-}
-
-/*SELECCIONA EL PIN DE SALIDA PARA GPIO
-void pwm_out(char out)
-{
-	return gpio_out = out;
-}
-*/
-
-void irq_handler(uint32_t pending)
-{
-	int i;
-
-	for(i=0; i<32; i++) {
-		if (pending & 0x01) (*isr_table[i])();
-		pending >>= 1;
-	}
-}
-
-void isr_init()
-{
-	int i;
-	uart_putstr("init\n");
-	for(i=0; i<32; i++)
-		isr_table[i] = &isr_null;
-}
-
-void isr_register(int irq, isr_ptr_t isr)
-{
-	isr_table[irq] = isr;
-}
-
-void isr_unregister(int irq)
-{
-	isr_table[irq] = &isr_null;
-}
-
-
-//AJUSTA FRECUENCIA DEL PWM
-uint32_t set_frecuency(uint32_t x)
-{
-	compare0Aux = FCPU/x;//
-	return compare0Aux;
-}
-//AJUSTA CICLO UTIL DEL PWM
-uint32_t set_duty(uint32_t y)
-{
-	compare1Aux = FCPU/y;//
-	return compare1Aux;
-}
-
 
 void tic_init() //Inicialización de el timer
 {
-	//uint32_t compare0Aux = set_frecuency(100000000);
-	//uint32_t compare1Aux = set_frecuency(10000000);
-	//tic_msec = 0;
-	//gpio_output(0xf);
+	set_frecuency(1);
+	set_duty(2);
 	
-	gpio0->out=0xf;
+	gpio0->out=0x0F;
+	
 	// Setup timer0.0 , Define frecuencia de la señal pwm
-	timer0->tcr0   = TIMER_EN | TIMER_AR | TIMER_IRQEN; //Configuración de los timer
 	timer0->compare0 = compare0Aux;
 	timer0->counter0 = 0;
-	//Setup timer0.1 , ajusta el ciclo util de la señal pwm
-	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	timer0->compare1 = compare1Aux;
-	timer0->counter1 = 0;	
-	uart_putstr("init\n");
-	isr_register(1, &tic_isr);
-}
-
-
-/*void tic_init() //Inicialización de el timer
-{
-	tic_msec = 0;
-
-	// Setup timer0.0
 	timer0->tcr0   = TIMER_EN | TIMER_AR | TIMER_IRQEN; //Configuración de los timer
 
-	//Setup timer0.1
-	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;	
-
-	isr_register(1, &tic_isr);
+	//Setup timer0.1 , ajusta el ciclo util de la señal pwm
+	timer0->compare1 = compare1Aux;
+	timer0->counter1 = 0;	
+	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+		
+	uart_putstr("Timer 0 and 1 running\n");
+	
+	isr_register(3, &tic_isr_0);
+	isr_register(4, &tic_isr_1);
 }
 
- 
- 
-
-*/void tic_isr() //ENTRA ACÁ CADA VEZ QUE EL TIMER CUENTA
+void tic_isr_0()
 {
-	uart_putstr("tic_isr \n"); 		
-	//tic_msec++;
-	//uint32_t compare0Aux = set_frecuency(100000000);
-	//uint32_t compare1Aux = set_frecuency(10000000);
-	
-	if(timer0->tcr1 & TIMER_TRIG)
-	{
-		uart_putstr("IF 2 \n"); 
-		gpio0->out=0x0;
-		timer0->tcr1     = TIMER_AR | TIMER_IRQEN;
-	}
-	
-	if(timer0->tcr0 & TIMER_TRIG)
-	{
-		gpio0->out=0xf;
-		timer0->compare0 = compare0Aux ;//(1000000);
-		timer0->compare1 = compare1Aux;//(100000);
-		timer0->counter0 = 0;
-		timer0->counter1 = 0;
-		timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-		timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	    uart_putstr("IF 2 \n"); 
-	}
-	//writeint(tic_msec);
-	//uart_putstr("\n"); 		
-	
+	uart_putstr("Interruption Timer 0\n");
+	gpio0->out=0x0F;
+	timer0->tcr0     = 0x00; //TIMER_EN | TIMER_AR | TIMER_IRQEN;
 }
 
-
-/* 
-void tic_isr() // INTERRUPCIÓN DE EL TIMER QUE SE ACTIVA CUANDO SE LLEGA A LA COMPARACIÓN  DE EK TIMER CERO
+void tic_isr_1()
 {
-	tic_msec++;
-	timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;	
+	uart_putstr("Interruption Timer 1\n");
+	gpio0->out=0x00;
+	timer0->tcr1     = 0x00; //TIMER_EN | TIMER_AR | TIMER_IRQEN;
 }
 
-*/
+uint32_t set_frecuency(uint32_t x) // Adjust frequency of PWM
+{
+	compare0Aux = FCPU/x;
+	return compare0Aux;
+}
 
+uint32_t set_duty(uint32_t y) // Adjust duty cycle of PWM
+{
+	compare1Aux = FCPU/y;
+	return compare1Aux;
+}
 
 /***************************************************************************
  * UART Functions

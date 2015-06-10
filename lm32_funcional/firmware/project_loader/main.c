@@ -9,12 +9,9 @@ int main(int argc, char **argv)
 	// Initialize TIC
 	isr_init();
 	tic_init();
+	irq_set_mask(0x000007FF);
 	irq_enable();
-	irq_set_mask(0xffffffff);
-	
-	//set_frecuency(100000000); 	
-	//set_duty(10000000);
-	
+				
 	for(;;)
 	{
 		i2c_test();
@@ -27,4 +24,18 @@ int main(int argc, char **argv)
 	//timer_test();
 	
 }
+
+inline void writeint(uint32_t val)
+{
+	uint32_t i, digit;
+
+	for (i=0; i<8; i++) 
+	{
+		digit = (val & 0xf0000000) >> 28;
+		if (digit >= 0xA) uart_putchar('A'+digit-10);
+		else uart_putchar('0'+digit);
+		val <<= 4;
+	}
+}
+
 

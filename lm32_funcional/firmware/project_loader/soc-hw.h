@@ -45,8 +45,6 @@ void     isr_unregister(int irq);
 void     halt();
 void     jump(uint32_t addr);
 
-
-
 inline void writeint(uint32_t val);
 
 /****************************************************************************
@@ -163,7 +161,6 @@ char uart_getchar();
 /***************************************************************************
  * Pointer to actual components
  */
-  
   
 extern i2c_t   *i2c0;
 extern spi_t   *spi0;
