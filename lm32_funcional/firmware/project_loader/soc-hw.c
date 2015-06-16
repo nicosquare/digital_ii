@@ -101,13 +101,13 @@ void i2c_test()
 {
 	uint8_t sr = 0;
 	uint8_t rx = 0;
-	uint8_t slave_add = 0x10;
-	uint8_t memory_add = 0x01;
+	uint8_t slave_add = 0xAA;
+	uint8_t memory_add = 0x55;
 	
 	uart_putstr("Begin I2C Test \n");
 	
 	// Set Prescale registers
-	i2c0->prerlo = 0x43;
+	i2c0->prerlo = 0x32;
 	i2c0->prerhi = 0x00;
 	// Enable the core
 	i2c0->ctr = 0x80;
@@ -121,6 +121,7 @@ void i2c_test()
 	{
 		sr = i2c0->csr;
 		uart_putchar(sr);
+		uart_putstr("\n");
  	} while ( sr & 0x20 );
  	
  	// Send memory address
@@ -132,6 +133,7 @@ void i2c_test()
 	{
 		sr = i2c0->csr;	
 		uart_putchar(sr);
+		uart_putstr("\n");
  	} while ( sr & 0x20 );
 	
 	// Drive slave address
@@ -143,6 +145,7 @@ void i2c_test()
 	{
 		sr = i2c0->csr;	
 		uart_putchar(sr);
+		uart_putstr("\n");
  	} while ( sr & 0x20 );
 	
 	// Read data from slave
@@ -153,6 +156,7 @@ void i2c_test()
 	{
 		sr = i2c0->csr;
 		uart_putchar(sr);
+		uart_putstr("\n");
  	} while ( sr & 0x20 );
 	
 	// Check data just received
@@ -166,6 +170,7 @@ void i2c_test()
 	{
 		sr = i2c0->csr;
 		uart_putchar(sr);
+		uart_putstr("\n");
  	} while ( sr & 0x20 );	
  
 	i2c0->csr = 0x28;
