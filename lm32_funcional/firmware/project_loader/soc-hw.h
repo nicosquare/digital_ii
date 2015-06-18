@@ -136,8 +136,8 @@ typedef struct {
 
 void msleep(uint32_t msec);
 void nsleep(uint32_t nsec);
-uint32_t set_frecuency(uint32_t value);
-uint32_t set_duty(uint32_t value1);
+uint32_t set_period();
+uint32_t set_duty(uint32_t percentage);
 void tic_init();
 
 /***************************************************************************
