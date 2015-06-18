@@ -12,10 +12,7 @@ int main(int argc, char **argv)
 	irq_set_mask(0x000007FF);
 	irq_enable();
 				
-	for(;;)
-	{
-		i2c_test();
-	}
+	fade_led();
 	
 	//i2c_test();
 	//spi_test();

@@ -136,8 +136,8 @@ typedef struct {
 
 void msleep(uint32_t msec);
 void nsleep(uint32_t nsec);
-uint32_t set_frecuency(uint32_t value);
-uint32_t set_duty(uint32_t value1);
+void set_frecuency(uint32_t x);
+void set_duty(uint32_t y);
 void tic_init();
 
 /***************************************************************************
