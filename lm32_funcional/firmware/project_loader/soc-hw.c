@@ -44,27 +44,13 @@ uint8_t pwm_p = 1;
 
 void fade_led()
 {	
-	   /*uint32_t i;
-	   for(i=0; i<1000000; i++) 
-       { 
-			//uart_putstr( " i = " );
-			set_duty(i); // 3000 000	   
-			msleep(60);
-			//writeint(i);
-			//uart_putstr( "\n" );
-			i = i + 100 ;
+	   char i;
+	   for(i=0; i<3; i++) 
+       {
+	   uart_putstr("..\n");    
+	   msleep(1000);
 	   }
 	   
-	   for(i=1000000; i = 0; i++) 
-       {		    
-			//uart_putstr( " i = " );
-			set_duty(i); // 3000 000	   
-			msleep(60);
-			//writeint(i);
-			i = i - 100 ;
-	   }	 
-	   */
-     
 }
  
 /***************************************************************************
@@ -264,35 +250,8 @@ void timer_test()
 	// Put your test here ;)
 }
 
-/*
- *(1/FCPU)*compare0Aux = T , T = Tiempo deseado 
- * 
- * compare0Aux = FCPU*T ; 1/FCPU = 0,1 ns
- * 
- * EJEMPLO: (10 ns)*(compare0Aux) = 10ms
- * compare0Aux = 1 000 000
- * */
-
-void set_frecuency(uint32_t x) // Adjust frequency of PWM
-{
-	timer0->compare0 = x;
-}
-
-void set_duty(uint32_t y) // Adjust duty cycle of PWM
-{
-	timer0->compare1 = y;
-}
-
 void tic_init() //Inicialización de el timer
 {
-	//timer0->tcr1 = 0x00;
-	//timer0->tcr0 = 0x00;
-	set_frecuency(1000000);
-	set_duty(500000); 	
-	gpio0->out=0x0F;
-	
-	// Setup timer0.0 , Define frecuencia de la señal pwm
-	//timer0->compare0 = compare0Aux;
 	// Set high M1,M2,M3 and M4
 	gpio0->out=0x0F;
 	
@@ -301,12 +260,6 @@ void tic_init() //Inicialización de el timer
 	timer0->counter0 = 0;
 	timer0->tcr0   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
 
-	//Setup timer0.1 , ajusta el ciclo util de la señal pwm
-	//timer0->compare1 = compare1Aux;
-	timer0->counter1 = 0;	
-	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-		
-	//uart_putstr("Init\n");
 	// Setup timer0.1 
 	timer0->compare1 = set_duty(pwm_d[0]);
 	timer0->counter1 = 0;	
@@ -354,15 +307,6 @@ void tic_init() //Inicialización de el timer
 
 void tic_isr_0()
 {
-	//uart_putstr("Interruption Timer 0\n");
-	gpio0->out=0x0F;
-	timer0->compare0 = compare0Aux ; //FCPU/set_frecuency();
-	timer0->compare1 = compare1Aux; // FCPU/set_duty();
-	timer0->counter0 = 0;
-	timer0->counter1 = 0;
-	timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	
 	uint32_t out_state = 0;
 	
 	uart_putstr("Interruption Timer 0\n");
@@ -379,11 +323,6 @@ void tic_isr_0()
 
 void tic_isr_1()
 {
-	//uart_putstr("Interruption Timer 1\n");
-	gpio0->out=0x00;
-	timer0->tcr1 = 0x00;
-}
-
 	uint32_t out_state = 0;
 	
 	uart_putstr("Interruption Timer 1\n");
@@ -528,4 +467,3 @@ void uart_test()
 {
 	uart_putstr("Hola_prueba_uart_test\r\n");
 }
-
