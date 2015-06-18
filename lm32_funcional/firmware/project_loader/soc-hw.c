@@ -286,7 +286,6 @@ void set_duty(uint32_t y) // Adjust duty cycle of PWM
 void tic_init() //Inicialización de el timer
 {
 <<<<<<< HEAD
-	
 	//timer0->tcr1 = 0x00;
 	//timer0->tcr0 = 0x00;
 	set_frecuency(1000000);
@@ -295,24 +294,20 @@ void tic_init() //Inicialización de el timer
 	
 	// Setup timer0.0 , Define frecuencia de la señal pwm
 	//timer0->compare0 = compare0Aux;
-=======
 	// Set high M1,M2,M3 and M4
 	gpio0->out=0x0F;
 	
 	// Setup timer0.0 
 	timer0->compare0 = set_period();
->>>>>>> 5719175372fef015779590044ec1aedad020bdc7
 	timer0->counter0 = 0;
 	timer0->tcr0   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
 
-<<<<<<< HEAD
 	//Setup timer0.1 , ajusta el ciclo util de la señal pwm
 	//timer0->compare1 = compare1Aux;
 	timer0->counter1 = 0;	
 	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
 		
 	//uart_putstr("Init\n");
-=======
 	// Setup timer0.1 
 	timer0->compare1 = set_duty(pwm_d[0]);
 	timer0->counter1 = 0;	
@@ -347,7 +342,6 @@ void tic_init() //Inicialización de el timer
 	timer0->compare7 = set_duty(pwm_d[3]);
 	timer0->counter7 = 0;	
 	timer0->tcr7     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
->>>>>>> 5719175372fef015779590044ec1aedad020bdc7
 	
 	isr_register(3, &tic_isr_0);
 	isr_register(4, &tic_isr_1);
@@ -361,7 +355,6 @@ void tic_init() //Inicialización de el timer
 
 void tic_isr_0()
 {
-<<<<<<< HEAD
 	//uart_putstr("Interruption Timer 0\n");
 	gpio0->out=0x0F;
 	timer0->compare0 = compare0Aux ; //FCPU/set_frecuency();
@@ -371,7 +364,6 @@ void tic_isr_0()
 	timer0->tcr0     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
 	timer0->tcr1     = TIMER_EN | TIMER_AR | TIMER_IRQEN;
 	
-=======
 	uint32_t out_state = 0;
 	
 	uart_putstr("Interruption Timer 0\n");
@@ -384,18 +376,15 @@ void tic_isr_0()
 	
 	timer0->counter1 = 0;
 	timer0->tcr1   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
->>>>>>> 5719175372fef015779590044ec1aedad020bdc7
 }
 
 void tic_isr_1()
 {
-<<<<<<< HEAD
 	//uart_putstr("Interruption Timer 1\n");
 	gpio0->out=0x00;
 	timer0->tcr1 = 0x00;
 }
 
-=======
 	uint32_t out_state = 0;
 	
 	uart_putstr("Interruption Timer 1\n");
@@ -501,7 +490,6 @@ uint32_t set_duty(uint32_t percentage)
 {
 	return (FCPU*pwm_p*percentage)/100;
 }
->>>>>>> 5719175372fef015779590044ec1aedad020bdc7
 
 /***************************************************************************
  * UART Functions
