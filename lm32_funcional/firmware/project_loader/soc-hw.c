@@ -285,7 +285,6 @@ void set_duty(uint32_t y) // Adjust duty cycle of PWM
 
 void tic_init() //Inicialización de el timer
 {
-<<<<<<< HEAD
 	//timer0->tcr1 = 0x00;
 	//timer0->tcr0 = 0x00;
 	set_frecuency(1000000);
