@@ -164,15 +164,42 @@ void i2c_test()
 */
 void spi_test()
 {
+	uart_putstr("Begin SPI Test \n");
+	//int i;
 	int32_t aux_read;
-	int i = 0;
-	spi0->txr = 0xAA;
 	
-	for(i;i<10;i++){};
-		
+	spi0->ssr=0;
+	spi0->txr = 0x000AffAB; // Probado en el osciloscopio
+	//for(i = 0;i<30;i++){}	
 	aux_read = spi0->rxr;
+	writeint(aux_read);	
+	uart_putstr("\n End SPI Test \n");
 	
-	writeint(aux_read);
+	//uart_putstr("Begin SPI Test \n");
+	//int32_t aux_read;
+	//int i; 
+	//spi0->txr = 0x4B; //01001011 --> First 01: Read mode ! ---> 1011: Memoria ADXL  
+	//Se debe enviar la direccion del registro que quiero leer.. 
+	//NO LA DIRECCION DEL ESCLAVO. ESO ES I2C ! 
+	//for(i = 0;i<100;i++){}
+	//aux_read = spi0->rxr;
+	//writeint(aux_read);
+	//uart_putstr("\n End SPI Test \n");
+		
+	/*if(spi0->sr&20)// If TRDY (5 bit of Status register) 
+	{
+		uart_putstr("al IF \n");
+		aux_read = spi0->rxr;
+		writeint(aux_read);
+	}
+	else
+	{
+		uart_putstr("Else \n");
+		aux_read = spi0->rxr;
+		writeint(aux_read);
+	}
+	uart_putstr("End SPI Test \n");	
+	*/
 }
 
 /*****************************************************************
