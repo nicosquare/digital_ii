@@ -12,11 +12,8 @@ int main(int argc, char **argv)
 	irq_set_mask(0x000007FF);
 	irq_enable();
 				
-	for(;;)
-	{
-		spi_test();
-	}
-	
+	fade_led();
+
 	//i2c_test();
 	//spi_test();
 	//gpio_test();

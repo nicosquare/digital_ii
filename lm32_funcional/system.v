@@ -20,6 +20,9 @@ module system
 	// I2C
 	inout       	i2c_scl,
 	inout	    	i2c_sda, 	
+	output[7:0]		i2c_sr,
+	output			i2c_scl_aux,
+	output			i2c_sda_aux,
 	// SPI
 	//input 			//spi_miso,
 	output			//spi_mosi,
@@ -373,7 +376,8 @@ i2c_master_wb_top #(
 	.wb_inta_o( i2c0_intr ),
 	// I2C connection
 	.scl( i2c0_scl ),
-	.sda( i2c0_sda )
+	.sda( i2c0_sda ),
+	.sr_register( i2c_sr)
 
 );
 
@@ -497,6 +501,8 @@ wb_uart #(
 // I2C
 assign i2c_scl = i2c0_scl;
 assign i2c_sda	= i2c0_sda;
+assign i2c_scl_aux = i2c0_scl;
+assign i2c_sda_aux	= i2c0_sda;
 
 // SPI
 //assign spi0_miso = spi_miso;

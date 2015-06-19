@@ -97,7 +97,7 @@
 module i2c_master_wb_top(
 	wb_clk_i, wb_rst_i, arst_i, wb_adr_i, wb_dat_i, wb_dat_o,
 	wb_we_i, wb_stb_i, wb_cyc_i, wb_ack_o, wb_inta_o,
-	scl, sda);
+	scl, sda, sr_register);
 	////scl_pad_i, scl_pad_o, scl_padoen_o, sda_pad_i, sda_pad_o, sda_padoen_o );
 
 	// parameters
@@ -119,6 +119,8 @@ module i2c_master_wb_top(
 	input        wb_cyc_i;     // valid bus cycle input
 	output       wb_ack_o;     // bus cycle acknowledge output
 	output       wb_inta_o;    // interrupt request signal output
+
+	output [7:0] sr_register;
 
 	reg [7:0] wb_dat_o;
 	reg wb_ack_o;
@@ -297,7 +299,6 @@ module i2c_master_wb_top(
 	// generate scl and sda pins
 	assign scl = (scl_padoen_o ? 1'bz : scl_pad_o);
 	assign sda = (sda_padoen_o ? 1'bz : sda_pad_o);
-	  
-	  
+	assign sr_register = sr;
 
 endmodule
