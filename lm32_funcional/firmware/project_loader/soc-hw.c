@@ -18,12 +18,15 @@ isr_ptr_t isr_table[32];
 // Duty cycle array
 // Each position stores de current duty cycle for each motor in percentages
 // [ M1 %| M2 %| M3 %| M4 %]
-uint8_t pwm_d[] = {10, 10, 10, 10};
+uint32_t pwm_d[] = {90, 70, 50, 30};
 
 // PWM max period
-// Time (in seconds) of duration of PWM cycle
-// Max value 1 second
-uint8_t pwm_p = 1;
+// Time (in miliseconds) of duration of PWM cycle
+// Max value 1 milisecond
+uint32_t pwm_p = 1000;
+
+// Mode state
+int mode = 0;
 
 /***************************************************************************
  * Functions
@@ -37,6 +40,7 @@ uint8_t pwm_p = 1;
  void tic_isr_5();
  void tic_isr_6();
  void tic_isr_7();
+ void tic_isr_15();
  
 /***************************************************************************
  * General utility functions
@@ -44,12 +48,23 @@ uint8_t pwm_p = 1;
 
 void fade_led()
 {	
-	   char i;
-	   for(i=0; i<3; i++) 
-       {
-	   uart_putstr("..\n");    
-	   msleep(1000);
-	   }
+   char i;
+   /*for(i=0; i<11; i++) 
+   {
+		
+		msleep(1000);
+   }
+   
+   for(i=10; i>0; i--) 
+   {
+
+		
+   }*/
+   
+   for(i=0; i<11; i++) 
+   {
+		msleep(1000);
+   }
 	   
 }
  
@@ -90,6 +105,147 @@ void isr_unregister(int irq)
 	isr_table[irq] = &isr_null;
 }
 
+void tic_isr_0()
+{
+	uint32_t out_state = 0;
+	
+	//uart_putstr("Interruption Timer 0\n");
+	
+	out_state = gpio0->out;
+	gpio0->out = out_state | 0x01;
+	
+	timer0->counter0 = 0;
+	timer0->tcr0   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+	
+	timer0->compare1 = set_duty(pwm_d[0]);
+	timer0->counter1 = 0;
+	timer0->tcr1   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+}
+
+void tic_isr_1()
+{
+	uint32_t out_state = 0;
+	
+	//uart_putstr("Interruption Timer 1\n");
+	
+	out_state = gpio0->out;
+	gpio0->out = out_state & 0xFE;
+	
+	timer0->tcr1     = 0x00;
+}
+
+void tic_isr_2()
+{
+	uint32_t out_state = 0;
+	
+	//uart_putstr("Interruption Timer 2\n");
+	
+	out_state = gpio0->out;
+	gpio0->out = out_state | 0x02;
+	
+	timer0->counter2 = 0;
+	timer0->tcr2   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+	
+	timer0->compare3 = set_duty(pwm_d[1]);
+	timer0->counter3 = 0;
+	timer0->tcr3   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+}
+
+void tic_isr_3()
+{
+	uint32_t out_state = 0;
+	
+	//uart_putstr("Interruption Timer 3\n");
+	
+	out_state = gpio0->out;
+	gpio0->out = out_state & 0xFD;
+	
+	timer0->tcr3     = 0x00;
+}
+
+void tic_isr_4()
+{
+	uint32_t out_state = 0;
+	
+	//uart_putstr("Interruption Timer 4\n");
+	
+	out_state = gpio0->out;
+	gpio0->out = out_state | 0x04;
+	
+	timer0->counter4 = 0;
+	timer0->tcr4   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+	
+	timer0->compare5 = set_duty(pwm_d[2]);
+	timer0->counter5 = 0;
+	timer0->tcr5   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+}
+
+void tic_isr_5()
+{
+	uint32_t out_state = 0;
+	
+	//uart_putstr("Interruption Timer 5\n");
+	
+	out_state = gpio0->out;
+	gpio0->out = out_state & 0xFB;
+	
+	timer0->tcr5     = 0x00;
+}
+
+void tic_isr_6()
+{
+	uint32_t out_state = 0;
+	
+	//uart_putstr("Interruption Timer 6\n");
+	
+	out_state = gpio0->out;
+	gpio0->out = out_state | 0x08;
+	
+	timer0->counter6 = 0;
+	timer0->tcr6   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+	
+	timer0->compare7 = set_duty(pwm_d[3]);
+	timer0->counter7 = 0;
+	timer0->tcr7   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
+}
+
+void tic_isr_7()
+{
+	uint32_t out_state = 0;
+	
+	//uart_putstr("Interruption Timer 7\n");
+	
+	out_state = gpio0->out;
+	gpio0->out = out_state & 0xF7;
+	
+	timer0->tcr7     = 0x00;
+}
+
+void tic_isr_15()
+{
+	uart_putstr("Interruption Mode\n");
+	
+	if(mode == 1)
+	{
+		mode = 0;
+		pwm_d[0] = 90;
+		pwm_d[1] = 70;
+		pwm_d[2] = 50;
+		pwm_d[3] = 30;
+	}
+	else
+	{
+		mode = 1;
+		pwm_d[0] = 30;
+		pwm_d[1] = 50;
+		pwm_d[2] = 70;
+		pwm_d[3] = 90;
+
+	}
+	
+
+}
+
 /*****************************************************************
 *I2C Functions
 */
@@ -97,13 +253,13 @@ void i2c_test()
 {
 	uint8_t sr = 0;
 	uint8_t rx = 0;
-	uint8_t slave_add = 0xAA;
-	uint8_t memory_add = 0x55;
+	uint8_t slave_add = 0x68;
+	uint8_t memory_add = 0x3C;
 	
 	uart_putstr("Begin I2C Test \n");
 	
 	// Set Prescale registers
-	i2c0->prerlo = 0x32;
+	i2c0->prerlo = 0xC7;
 	i2c0->prerhi = 0x00;
 	// Enable the core
 	i2c0->ctr = 0x80;
@@ -116,8 +272,8 @@ void i2c_test()
 	do 	
 	{
 		sr = i2c0->csr;
-		uart_putchar(sr);
-		uart_putstr("\n");
+		//uart_putchar(sr);
+		//uart_putstr("\n");
  	} while ( sr & 0x20 );
  	
  	// Send memory address
@@ -128,8 +284,8 @@ void i2c_test()
 	do 	
 	{
 		sr = i2c0->csr;	
-		uart_putchar(sr);
-		uart_putstr("\n");
+		//uart_putchar(sr);
+		//uart_putstr("\n");
  	} while ( sr & 0x20 );
 	
 	// Drive slave address
@@ -140,8 +296,8 @@ void i2c_test()
 	do 	
 	{
 		sr = i2c0->csr;	
-		uart_putchar(sr);
-		uart_putstr("\n");
+		//uart_putchar(sr);
+		//uart_putstr("\n");
  	} while ( sr & 0x20 );
 	
 	// Read data from slave
@@ -151,8 +307,8 @@ void i2c_test()
 	do 	
 	{
 		sr = i2c0->csr;
-		uart_putchar(sr);
-		uart_putstr("\n");
+		//uart_putchar(sr);
+		//uart_putstr("\n");
  	} while ( sr & 0x20 );
 	
 	// Check data just received
@@ -165,8 +321,8 @@ void i2c_test()
 	do 	
 	{
 		sr = i2c0->csr;
-		uart_putchar(sr);
-		uart_putstr("\n");
+		//uart_putchar(sr);
+		//uart_putstr("\n");
  	} while ( sr & 0x20 );	
  
 	i2c0->csr = 0x28;
@@ -245,15 +401,15 @@ void msleep(uint32_t msec)
 {
 	uint32_t tcr;
 
-	// Use timer0.0
-	timer0->compare0 = FCPU*msec/1000;
-	timer0->counter0 = 0;
-	timer0->tcr0 = TIMER_EN;
+	// Use timer0.10
+	timer0->compare10 = FCPU*msec/1000;
+	timer0->counter10 = 0;
+	timer0->tcr10 = TIMER_EN;
 
 	do 
 	{
 		//halt();
- 		tcr = timer0->tcr0;
+ 		tcr = timer0->tcr10;
  	} while ( ! (tcr & TIMER_TRIG) );
 }
 
@@ -261,14 +417,14 @@ void nsleep(uint32_t nsec)
 {
 	uint32_t tcr;
 
-	// Use timer0.1
-	timer0->compare1 = FCPU*nsec/1000000;
-	timer0->counter1 = 0;
-	timer0->tcr1 = TIMER_EN;
+	// Use timer0.11
+	timer0->compare11 = FCPU*nsec/1000000;
+	timer0->counter11 = 0;
+	timer0->tcr11 = TIMER_EN;
 
 	do {
 		//halt();
- 		tcr = timer0->tcr1;
+ 		tcr = timer0->tcr11;
  	} while ( ! (tcr & TIMER_TRIG) );
 }
 
@@ -330,130 +486,20 @@ void tic_init() //Inicialización de el timer
 	isr_register(8, &tic_isr_5);
 	isr_register(9, &tic_isr_6);
 	isr_register(10, &tic_isr_7);
-}
-
-void tic_isr_0()
-{
-	uint32_t out_state = 0;
 	
-	uart_putstr("Interruption Timer 0\n");
-	
-	out_state = gpio0->out;
-	gpio0->out = out_state | 0x01;
-	
-	timer0->counter0 = 0;
-	timer0->tcr0   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	
-	timer0->counter1 = 0;
-	timer0->tcr1   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-}
-
-void tic_isr_1()
-{
-	uint32_t out_state = 0;
-	
-	uart_putstr("Interruption Timer 1\n");
-	
-	out_state = gpio0->out;
-	gpio0->out = out_state & 0xFE;
-	
-	timer0->tcr1     = 0x00;
-}
-
-void tic_isr_2()
-{
-	uint32_t out_state = 0;
-	
-	uart_putstr("Interruption Timer 2\n");
-	
-	out_state = gpio0->out;
-	gpio0->out = out_state | 0x02;
-	
-	timer0->counter2 = 0;
-	timer0->tcr2   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	
-	timer0->counter3 = 0;
-	timer0->tcr3   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-}
-
-void tic_isr_3()
-{
-	uint32_t out_state = 0;
-	
-	uart_putstr("Interruption Timer 3\n");
-	
-	out_state = gpio0->out;
-	gpio0->out = out_state & 0xFD;
-	
-	timer0->tcr3     = 0x00;
-}
-
-void tic_isr_4()
-{
-	uint32_t out_state = 0;
-	
-	uart_putstr("Interruption Timer 4\n");
-	
-	out_state = gpio0->out;
-	gpio0->out = out_state | 0x04;
-	
-	timer0->counter4 = 0;
-	timer0->tcr4   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	
-	timer0->counter5 = 0;
-	timer0->tcr5   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-}
-
-void tic_isr_5()
-{
-	uint32_t out_state = 0;
-	
-	uart_putstr("Interruption Timer 5\n");
-	
-	out_state = gpio0->out;
-	gpio0->out = out_state & 0xFB;
-	
-	timer0->tcr5     = 0x00;
-}
-
-void tic_isr_6()
-{
-	uint32_t out_state = 0;
-	
-	uart_putstr("Interruption Timer 6\n");
-	
-	out_state = gpio0->out;
-	gpio0->out = out_state | 0x08;
-	
-	timer0->counter6 = 0;
-	timer0->tcr6   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-	
-	timer0->counter7 = 0;
-	timer0->tcr7   = TIMER_EN | TIMER_AR | TIMER_IRQEN;
-}
-
-void tic_isr_7()
-{
-	uint32_t out_state = 0;
-	
-	uart_putstr("Interruption Timer 7\n");
-	
-	out_state = gpio0->out;
-	gpio0->out = out_state & 0xF7;
-	
-	timer0->tcr7     = 0x00;
+	isr_register(15, &tic_isr_15);
 }
 
 // Set period of PWM
 uint32_t set_period() 
 {
-	return FCPU*pwm_p;
+	return (FCPU/1000)*pwm_p;
 }
 
 // Set duty cycle of PWM
 uint32_t set_duty(uint32_t percentage) 
 {
-	return (FCPU*pwm_p*percentage)/100;
+	return (FCPU/1000/100)*pwm_p*percentage;
 }
 
 /***************************************************************************

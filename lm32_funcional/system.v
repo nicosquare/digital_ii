@@ -17,12 +17,11 @@ module system
 	// Debug 
 	output            led,
 	input             rst,
+	input             mode,
 	// I2C
 	inout       	i2c_scl,
 	inout	    	i2c_sda, 	
 	output[7:0]		i2c_sr,
-	output			i2c_scl_aux,
-	output			i2c_sda_aux,
 	// SPI
 	//input 			//spi_miso,
 	output			//spi_mosi,
@@ -157,9 +156,14 @@ wire [31:0]  intr_n;
 wire         i2c0_intr;
 wire         spi0_intr;
 wire         gpio0_intr;
-wire [7:0]   timer0_intr;
+wire [11:0]   timer0_intr;
 
-assign intr_n = { 21'h1FFFFF, 
+assign intr_n = { 16'hFFFF, 
+				  ~mode, 
+				  ~timer0_intr[11], 
+				  ~timer0_intr[10], 
+				  ~timer0_intr[9], 
+				  ~timer0_intr[8], 
 				  ~timer0_intr[7], 
 				  ~timer0_intr[6], 
 				  ~timer0_intr[5], 
