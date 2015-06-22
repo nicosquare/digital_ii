@@ -17,17 +17,20 @@ module system
 	// Debug 
 	output            led,
 	input             rst,
+	input             mode,
 	// I2C
 	inout       	i2c_scl,
 	inout	    	i2c_sda, 	
 	output[7:0]		i2c_sr,
-	output			i2c_scl_aux,
-	output			i2c_sda_aux,
 	// SPI
-	input 			spi_miso,
-	output			spi_mosi,
-					spi_ss,
-					spi_clk,
+	//input 			//spi_miso,
+	output			//spi_mosi,
+					//spi_ss,
+					//spi_clk,	
+					spi_mosi_aux,
+					spi_ss_aux,
+					spi_clk_aux,
+					
 	// GPIO
 	input[3:0]		gpio_pad_r,
 	output[3:0]	    gpio_pad_w,
@@ -153,9 +156,14 @@ wire [31:0]  intr_n;
 wire         i2c0_intr;
 wire         spi0_intr;
 wire         gpio0_intr;
-wire [7:0]   timer0_intr;
+wire [11:0]   timer0_intr;
 
-assign intr_n = { 21'h1FFFFF, 
+assign intr_n = { 16'hFFFF, 
+				  ~mode, 
+				  ~timer0_intr[11], 
+				  ~timer0_intr[10], 
+				  ~timer0_intr[9], 
+				  ~timer0_intr[8], 
 				  ~timer0_intr[7], 
 				  ~timer0_intr[6], 
 				  ~timer0_intr[5], 
@@ -501,12 +509,17 @@ assign i2c_scl_aux = i2c0_scl;
 assign i2c_sda_aux	= i2c0_sda;
 
 // SPI
-assign spi0_miso = spi_miso;
-assign spi_mosi = spi0_mosi;
-assign spi_ss = spi0_ss;
-assign spi_clk = spi0_clk;
+//assign spi0_miso = spi_miso;
+//assign spi_mosi = spi0_mosi;
+//assign spi_ss = spi0_ss;
+//assign spi_clk = spi0_clk;
+assign spi_mosi_aux = spi0_mosi;
+assign spi_ss_aux = spi0_ss;
+assign spi_clk_aux = spi0_clk;
+
 
 // GPIO
+
 assign gpio0_pad_r = gpio_pad_r;
 assign gpio_pad_w = gpio0_pad_w;
 assign gpio_padoe = gpio0_padoe;

@@ -35,6 +35,22 @@
 //    0x54 TCR7
 //    0x58 COMPARE7
 //    0x5C COUNTER7
+//    -------------
+//    0x60 TCR8
+//    0x64 COMPARE8
+//    0x68 COUNTER8
+//    -------------
+//    0x6C TCR9
+//    0x70 COMPARE9
+//    0x74 COUNTER9
+//    -------------
+//    0x78 TCR10
+//    0x7C COMPARE10
+//    0x80 COUNTER10
+//    -------------
+//    0x84 TCR11
+//    0x88 COMPARE11
+//    0x8C COUNTER11
 //
 // TCRx:  
 //    +-------------------+-------+-------+-------+-------+
@@ -65,17 +81,17 @@ module wb_timer #(
 	input       [31:0] wb_dat_i,
 	output reg  [31:0] wb_dat_o,
 	//
-	output       [7:0] intr
+	output       [11:0] intr
 );
 
 //---------------------------------------------------------------------------
 // 
 //---------------------------------------------------------------------------
 
-reg irqen0, irqen1, irqen2, irqen3, irqen4, irqen5, irqen6, irqen7;
-reg trig0, trig1, trig2, trig3, trig4, trig5, trig6, trig7;
-reg en0, en1, en2, en3, en4, en5, en6, en7;
-reg ar0, ar1, ar2, ar3, ar4, ar5, ar6, ar7;
+reg irqen0, irqen1, irqen2, irqen3, irqen4, irqen5, irqen6, irqen7, irqen8, irqen9, irqen10, irqen11;
+reg trig0, trig1, trig2, trig3, trig4, trig5, trig6, trig7, trig8, trig9, trig10, trig11;
+reg en0, en1, en2, en3, en4, en5, en6, en7, en8, en9, en10, en11;
+reg ar0, ar1, ar2, ar3, ar4, ar5, ar6, ar7, ar8, ar9, ar10, ar11;
 
 wire [31:0] tcr0 = { 28'b0, en0, ar0, irqen0, trig0 };
 wire [31:0] tcr1 = { 28'b0, en1, ar1, irqen1, trig1 };
@@ -85,6 +101,10 @@ wire [31:0] tcr4 = { 28'b0, en4, ar4, irqen4, trig4 };
 wire [31:0] tcr5 = { 28'b0, en5, ar5, irqen5, trig5 };
 wire [31:0] tcr6 = { 28'b0, en5, ar6, irqen6, trig6 };
 wire [31:0] tcr7 = { 28'b0, en7, ar7, irqen7, trig7 };
+wire [31:0] tcr8 = { 28'b0, en8, ar8, irqen8, trig8 };
+wire [31:0] tcr9 = { 28'b0, en9, ar9, irqen9, trig9 };
+wire [31:0] tcr10 = { 28'b0, en10, ar10, irqen10, trig10 };
+wire [31:0] tcr11 = { 28'b0, en11, ar11, irqen11, trig11 };
 
 reg  [31:0] counter0;
 reg  [31:0] counter1;
@@ -94,6 +114,10 @@ reg  [31:0] counter4;
 reg  [31:0] counter5;
 reg  [31:0] counter6;
 reg  [31:0] counter7;
+reg  [31:0] counter8;
+reg  [31:0] counter9;
+reg  [31:0] counter10;
+reg  [31:0] counter11;
 
 reg  [31:0] compare0;
 reg  [31:0] compare1;
@@ -103,6 +127,10 @@ reg  [31:0] compare4;
 reg  [31:0] compare5;
 reg  [31:0] compare6;
 reg  [31:0] compare7;
+reg  [31:0] compare8;
+reg  [31:0] compare9;
+reg  [31:0] compare10;
+reg  [31:0] compare11;
 
 wire match0 = (counter0 == compare0);
 wire match1 = (counter1 == compare1);
@@ -112,8 +140,12 @@ wire match4 = (counter4 == compare4);
 wire match5 = (counter5 == compare5);
 wire match6 = (counter6 == compare6);
 wire match7 = (counter7 == compare7);
+wire match8 = (counter8 == compare8);
+wire match9 = (counter9 == compare9);
+wire match10 = (counter10 == compare10);
+wire match11 = (counter11 == compare11);
 
-assign intr = { trig7, trig6, trig5, trig4, trig3, trig2, trig1, trig0 };
+assign intr = { trig11, trig10, trig9, trig8, trig7, trig6, trig5, trig4, trig3, trig2, trig1, trig0 };
 
 reg  ack;
 assign wb_ack_o = wb_stb_i & wb_cyc_i & ack;
@@ -133,6 +165,10 @@ begin
 		en5      <= 0;
 		en6      <= 0;
 		en7      <= 0;
+		en8      <= 0;
+		en9      <= 0;
+		en10      <= 0;
+		en11      <= 0;
 		ar0      <= 0;
 		ar1      <= 0;
 		ar2      <= 0;
@@ -141,6 +177,10 @@ begin
 		ar5      <= 0;
 		ar6      <= 0;
 		ar7      <= 0;
+		ar8      <= 0;
+		ar9      <= 0;
+		ar10      <= 0;
+		ar11      <= 0;
 		trig0    <= 0;
 		trig1    <= 0;
 		trig2    <= 0;
@@ -149,6 +189,10 @@ begin
 		trig5    <= 0;
 		trig6    <= 0;
 		trig7    <= 0;
+		trig8    <= 0;
+		trig9    <= 0;
+		trig10    <= 0;
+		trig11    <= 0;
 		counter0 <= 0;
 		counter1 <= 0;
 		counter2 <= 0;
@@ -157,6 +201,10 @@ begin
 		counter5 <= 0;
 		counter6 <= 0;
 		counter7 <= 0;
+		counter8 <= 0;
+		counter9 <= 0;
+		counter10 <= 0;
+		counter11 <= 0;
 		compare0 <= 32'hFFFFFFFF;
 		compare1 <= 32'hFFFFFFFF;
 		compare2 <= 32'hFFFFFFFF;
@@ -165,6 +213,10 @@ begin
 		compare5 <= 32'hFFFFFFFF;
 		compare6 <= 32'hFFFFFFFF;
 		compare7 <= 32'hFFFFFFFF;
+		compare8 <= 32'hFFFFFFFF;
+		compare9 <= 32'hFFFFFFFF;
+		compare10 <= 32'hFFFFFFFF;
+		compare11 <= 32'hFFFFFFFF;
 	end else begin
 
 		// Handle counter 0
@@ -215,6 +267,30 @@ begin
 		if ( ar7 &  match7) counter7 <= 1;
 		if (~ar7 &  match7) en7      <= 0;
 
+		// Handle counter 8
+		if ( en8 & ~match8) counter8 <= counter8 + 1;
+		if ( en8 &  match8) trig8    <= 1;
+		if ( ar8 &  match8) counter8 <= 1;
+		if (~ar8 &  match8) en8      <= 0;
+
+		// Handle counter 9
+		if ( en9 & ~match9) counter9 <= counter9 + 1;
+		if ( en9 &  match9) trig9    <= 1;
+		if ( ar9 &  match9) counter9 <= 1;
+		if (~ar9 &  match9) en9      <= 0;
+
+		// Handle counter 10
+		if ( en10 & ~match10) counter10 <= counter10 + 1;
+		if ( en10 &  match10) trig10    <= 1;
+		if ( ar10 &  match10) counter10 <= 1;
+		if (~ar10 &  match10) en10      <= 0;
+
+		// Handle counter 11
+		if ( en11 & ~match11) counter11 <= counter11 + 1;
+		if ( en11 &  match11) trig11    <= 1;
+		if ( ar11 &  match11) counter11 <= 1;
+		if (~ar11 &  match11) en11      <= 0;
+
 		// Handle WISHBONE access
 		ack    <= 0;
 
@@ -246,6 +322,18 @@ begin
 			'h54: wb_dat_o <= tcr7;
 			'h58: wb_dat_o <= compare7;
 			'h5c: wb_dat_o <= counter7;
+			'h54: wb_dat_o <= tcr8;
+			'h58: wb_dat_o <= compare8;
+			'h5c: wb_dat_o <= counter8;
+			'h54: wb_dat_o <= tcr9;
+			'h58: wb_dat_o <= compare9;
+			'h5c: wb_dat_o <= counter9;
+			'h54: wb_dat_o <= tcr10;
+			'h58: wb_dat_o <= compare10;
+			'h5c: wb_dat_o <= counter10;
+			'h54: wb_dat_o <= tcr11;
+			'h58: wb_dat_o <= compare11;
+			'h5c: wb_dat_o <= counter11;
 			default: wb_dat_o <= 32'b0;
 			endcase
 		end else if (wb_wr & ~ack ) begin // write cycle
@@ -316,6 +404,38 @@ begin
 			end
 			'h58: compare7 <= wb_dat_i;
 			'h5C: counter7 <= wb_dat_i;
+			'h60: begin
+				trig8   <= 0;
+				irqen8  <= wb_dat_i[1];
+				ar8     <= wb_dat_i[2];
+				en8     <= wb_dat_i[3];
+			end
+			'h64: compare8 <= wb_dat_i;
+			'h68: counter8 <= wb_dat_i;
+			'h6C: begin
+				trig9   <= 0;
+				irqen9  <= wb_dat_i[1];
+				ar9     <= wb_dat_i[2];
+				en9     <= wb_dat_i[3];
+			end
+			'h70: compare9 <= wb_dat_i;
+			'h74: counter9 <= wb_dat_i;
+			'h78: begin
+				trig10   <= 0;
+				irqen10  <= wb_dat_i[1];
+				ar10     <= wb_dat_i[2];
+				en10     <= wb_dat_i[3];
+			end
+			'h7C: compare10 <= wb_dat_i;
+			'h80: counter10 <= wb_dat_i;
+			'h84: begin
+				trig11   <= 0;
+				irqen11  <= wb_dat_i[1];
+				ar11     <= wb_dat_i[2];
+				en11     <= wb_dat_i[3];
+			end
+			'h88: compare11 <= wb_dat_i;
+			'h8C: counter11 <= wb_dat_i;
 			endcase
 		end
 	end

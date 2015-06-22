@@ -9,10 +9,13 @@ int main(int argc, char **argv)
 	// Initialize TIC
 	isr_init();
 	tic_init();
-	irq_set_mask(0x000007FF);
+	irq_set_mask(0x0000FFFF);
 	irq_enable();
 				
-	fade_led();
+	for(;;)
+	{
+		i2c_test();
+	}
 	
 	//i2c_test();
 	//spi_test();

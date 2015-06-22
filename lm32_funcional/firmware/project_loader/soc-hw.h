@@ -131,15 +131,24 @@ typedef struct {
 	volatile uint32_t tcr7;
 	volatile uint32_t compare7;
 	volatile uint32_t counter7;
+	volatile uint32_t tcr8;
+	volatile uint32_t compare8;
+	volatile uint32_t counter8;
+	volatile uint32_t tcr9;
+	volatile uint32_t compare9;
+	volatile uint32_t counter9;
+	volatile uint32_t tcr10;
+	volatile uint32_t compare10;
+	volatile uint32_t counter10;
+	volatile uint32_t tcr11;
+	volatile uint32_t compare11;
+	volatile uint32_t counter11;
 } timer_t;
-
 
 void msleep(uint32_t msec);
 void nsleep(uint32_t nsec);
-void set_frecuency(uint32_t x);
-void set_duty(uint32_t y);
-uint32_t set_period();
 uint32_t set_duty(uint32_t percentage);
+uint32_t set_period();
 void tic_init();
 
 /***************************************************************************
