@@ -6,6 +6,5 @@ lm32_funcional/.idea/
 *.bit
 *.d
 *.o
-image*
-
+lm32_funcional/firmware/*/image*
 
