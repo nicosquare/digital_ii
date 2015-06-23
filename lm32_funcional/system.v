@@ -21,15 +21,11 @@ module system
 	// I2C
 	inout       	i2c_scl,
 	inout	    	i2c_sda, 	
-	output[7:0]		i2c_sr,
 	// SPI
-	//input 			//spi_miso,
-	output			//spi_mosi,
-					//spi_ss,
-					//spi_clk,	
-					spi_mosi_aux,
-					spi_ss_aux,
-					spi_clk_aux,
+	input 			spi_miso,
+	output			spi_mosi,
+					spi_ss,
+					spi_clk,	
 					
 	// GPIO
 	input[3:0]		gpio_pad_r,
@@ -380,8 +376,7 @@ i2c_master_wb_top #(
 	.wb_inta_o( i2c0_intr ),
 	// I2C connection
 	.scl( i2c0_scl ),
-	.sda( i2c0_sda ),
-	.sr_register( i2c_sr)
+	.sda( i2c0_sda )
 
 );
 
@@ -505,17 +500,12 @@ wb_uart #(
 // I2C
 assign i2c_scl = i2c0_scl;
 assign i2c_sda	= i2c0_sda;
-assign i2c_scl_aux = i2c0_scl;
-assign i2c_sda_aux	= i2c0_sda;
 
 // SPI
-//assign spi0_miso = spi_miso;
-//assign spi_mosi = spi0_mosi;
-//assign spi_ss = spi0_ss;
-//assign spi_clk = spi0_clk;
-assign spi_mosi_aux = spi0_mosi;
-assign spi_ss_aux = spi0_ss;
-assign spi_clk_aux = spi0_clk;
+assign spi0_miso = spi_miso;
+assign spi_mosi = spi0_mosi;
+assign spi_ss = spi0_ss;
+assign spi_clk = spi0_clk;
 
 
 // GPIO
