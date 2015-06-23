@@ -18,12 +18,12 @@ isr_ptr_t isr_table[32];
 // Duty cycle array
 // Each position stores de current duty cycle for each motor in percentages
 // [ M1 %| M2 %| M3 %| M4 %]
-uint32_t pwm_d[] = {90, 70, 50, 30};
+uint32_t pwm_d[] = {1, 1, 1, 1};
 
 // PWM max period
 // Time (in miliseconds) of duration of PWM cycle
 // Max value 1 milisecond
-uint32_t pwm_p = 1000;
+uint32_t pwm_p = 1;
 
 // Mode state
 int mode = 0;
@@ -225,25 +225,14 @@ void tic_isr_15()
 {
 	uart_putstr("Interruption Mode\n");
 	
-	if(mode == 1)
-	{
-		mode = 0;
-		pwm_d[0] = 90;
-		pwm_d[1] = 70;
-		pwm_d[2] = 50;
-		pwm_d[3] = 30;
-	}
-	else
-	{
-		mode = 1;
-		pwm_d[0] = 30;
-		pwm_d[1] = 50;
-		pwm_d[2] = 70;
-		pwm_d[3] = 90;
-
-	}
+	mode = mode +1;
 	
-
+		pwm_d[0] = mode;
+		pwm_d[1] = mode;
+		pwm_d[2] = mode;
+		pwm_d[3] = mode;
+		if(mode == 100)
+			mode = 0;
 }
 
 /*****************************************************************
