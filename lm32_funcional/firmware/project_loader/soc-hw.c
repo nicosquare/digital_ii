@@ -327,13 +327,11 @@ void spi_test()
 	uart_putstr("Begin SPI Test \n");
 	//int i;
 	int32_t aux_read;
-	
 	spi0->ssr=0;
+	for(;;){
 	spi0->txr = 0x000AffAB; // Probado en el osciloscopio
-	//for(i = 0;i<30;i++){}	
-	aux_read = spi0->rxr;
-	writeint(aux_read);	
-	uart_putstr("\n End SPI Test \n");
+	}
+
 	
 	//uart_putstr("Begin SPI Test \n");
 	//int32_t aux_read;
