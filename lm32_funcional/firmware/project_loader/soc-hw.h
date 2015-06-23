@@ -54,6 +54,27 @@ inline void writeint(uint32_t val);
 /****************************************************************************
  * I2C
  ****************************************************************************/
+ 
+#include "MPU6050.h"
+
+#define I2C_CR_CORE_EN   0x80
+#define I2C_CR_CORE_ISR  0x40
+
+#define I2C_TR_R		 0x01
+#define I2C_TR_W		 0x00
+
+#define I2C_SR_RACK		 0x80
+#define I2C_SR_BUSY		 0x40
+#define I2C_SR_AL		 0x20
+#define I2C_SR_TIP		 0x02
+#define I2C_SR_IF		 0x01
+
+#define I2C_CR_STA		 0x80
+#define I2C_CR_STOP		 0x40
+#define I2C_CR_R		 0x20
+#define I2C_CR_W		 0x10
+#define I2C_CR_ACK		 0x08
+#define I2C_CR_IACK		 0x01
 
 typedef struct {
    volatile uint8_t prerlo;
@@ -65,6 +86,10 @@ typedef struct {
 
 
 void i2c_test();
+void i2c_core_init(uint8_t prerhi, uint8_t prerlo);
+void i2c_check_bit(uint8_t bit);
+void i2c_read_register(uint8_t slaveAddr, uint8_t readAddr, uint8_t* pBuffer);
+void i2c_write_register(uint8_t slaveAddr, uint8_t readAddr, uint8_t data);
 
 /****************************************************************************
  * SPI

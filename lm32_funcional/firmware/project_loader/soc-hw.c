@@ -240,83 +240,178 @@ void tic_isr_15()
 */
 void i2c_test()
 {
-	uint8_t sr = 0;
-	uint8_t rx = 0;
-	uint8_t slave_add = 0x68;
-	uint8_t memory_add = 0x3C;
+	uint8_t whoiam = 0;
 	
-	uart_putstr("Begin I2C Test \n");
+	i2c_read_register(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_WHO_AM_I, &whoiam);
 	
+	uart_putchar(whoiam);
+}
+
+/**
+ * Initialize the core and set the prescale register
+ */
+void i2c_core_init(uint8_t prerhi, uint8_t prerlo)
+{
 	// Set Prescale registers
 	i2c0->prerlo = 0xC7;
 	i2c0->prerhi = 0x00;
 	// Enable the core
 	i2c0->ctr = 0x80;
-	
-	// Drive slave address
-	i2c0->txrxr = (slave_add << 1) + 0;
-	i2c0->csr = 0x90;
-	
-	// Check tip bit
+}
+
+/**
+ * Check if a specific bit in Status register is Low
+ */
+ void i2c_check_bit(uint8_t bit)
+ {
+	uint8_t sr = 0; 
+	 
 	do 	
 	{
 		sr = i2c0->csr;
-		//uart_putchar(sr);
-		//uart_putstr("\n");
- 	} while ( sr & 0x20 );
- 	
- 	// Send memory address
- 	i2c0->txrxr = memory_add;
-	i2c0->csr = 0x10;
+	} while ( sr & bit );
 	
-	// Check tip bit
-	do 	
-	{
-		sr = i2c0->csr;	
-		//uart_putchar(sr);
-		//uart_putstr("\n");
- 	} while ( sr & 0x20 );
+ }
+
+void MPU6050_Initialize()
+{
+	// Configure Gyroscope
+	i2c_write_bits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_GYRO_CONFIG, MPU6050_GCONFIG_FS_SEL_BIT, MPU6050_GCONFIG_FS_SEL_LENGTH, MPU6050_GYRO_FS_250);
+
+	// Configure Accelerometer
+	i2c_write_bits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_CONFIG, MPU6050_ACONFIG_AFS_SEL_BIT, MPU6050_ACONFIG_AFS_SEL_LENGTH, MPU6050_ACCEL_FS_2);
+    
+    // Set clock source and disable sleep mode
+    i2c_write_bits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CLKSEL_BIT, MPU6050_PWR1_CLKSEL_LENGTH, MPU6050_CLOCK_PLL_XGYRO);
+	i2c_write_bit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_SLEEP_BIT, 0);
+}
+
+/** Write multiple bits in an 8-bit device register.
+ * @param slaveAddr I2C slave device address
+ * @param regAddr Register regAddr to write to
+ * @param bitStart First bit position to write (0-7)
+ * @param length Number of bits to write (not more than 8)
+ * @param data Right-aligned value to write
+ */
+void i2c_write_bits(uint8_t slaveAddr, uint8_t regAddr, uint8_t bitStart, uint8_t length, uint8_t data)
+{
+    //      010 value to write
+    // 76543210 bit numbers
+    //    xxx   args: bitStart=4, length=3
+    // 00011100 mask byte
+    // 10101111 original value (sample)
+    // 10100011 original & ~mask
+    // 10101011 masked | value
+    uint8_t tmp;
+    i2c_read_register(slaveAddr, regAddr, &tmp);
+    uint8_t mask = ((1 << length) - 1) << (bitStart - length + 1);
+    data <<= (bitStart - length + 1); // shift data into correct position
+    data &= mask; // zero all non-important bits in data
+    tmp &= ~(mask); // zero all important bits in existing byte
+    tmp |= data; // combine data with existing byte
+    i2c_write_register(slaveAddr, regAddr, tmp);
+}
+
+/** write a single bit in an 8-bit device register.
+ * @param slaveAddr I2C slave device address
+ * @param regAddr Register regAddr to write to
+ * @param bitNum Bit position to write (0-7)
+ * @param value New bit value to write
+ */
+void i2c_write_bit(uint8_t slaveAddr, uint8_t regAddr, uint8_t bitNum, uint8_t data)
+{
+    uint8_t tmp;
+    i2c_read_register(slaveAddr, regAddr, &tmp);
+    tmp = (data != 0) ? (tmp | (1 << bitNum)) : (tmp & ~(1 << bitNum));
+    i2c_write_register(slaveAddr, regAddr, tmp);
+}
+
+/**
+ * Read a register from a specific slave
+ */
+void i2c_read_register(uint8_t slaveAddr, uint8_t readAddr, uint8_t* pBuffer)
+{
+
+	/* While the bus is busy */
+	i2c_check_bit(I2C_SR_BUSY);
 	
-	// Drive slave address
-	i2c0->txrxr = (slave_add << 1) + 1;
-	i2c0->csr = 0x90;
+	/* Send START condition */
+    i2c0->csr = I2C_CR_STA;
+
+	/* While the TIP is active */
+	i2c_check_bit(I2C_SR_TIP);
 	
-	// Check tip bit
-	do 	
-	{
-		sr = i2c0->csr;	
-		//uart_putchar(sr);
-		//uart_putstr("\n");
- 	} while ( sr & 0x20 );
+	/* Send slave address for write */
+    i2c0->txrxr = slaveAddr << 1 + I2C_TR_W;
+    i2c0->csr = I2C_CR_W;
+    
+	/* Receive acknowledge from Slave */
+	i2c_check_bit(I2C_SR_RACK);
 	
-	// Read data from slave
-	i2c0->csr = 0x20;
+	/* Send the slave's internal address to write to */
+    i2c0->txrxr = readAddr;
+	i2c0->csr = I2C_CR_W;
 	
-	// Check tip bit
-	do 	
-	{
-		sr = i2c0->csr;
-		//uart_putchar(sr);
-		//uart_putstr("\n");
- 	} while ( sr & 0x20 );
+	/* Receive acknowledge from Slave */
+	i2c_check_bit(I2C_SR_RACK);    
 	
-	// Check data just received
-	rx = i2c0->txrxr;
-		
- 	uart_putstr("--- Rx Register\n");
-	uart_putchar(rx);
-	uart_putstr("\n");
+	/* Send START condition a second time */
+    i2c0->csr = I2C_CR_STA;
+    
+	/* Send slave address for read */
+    i2c0->txrxr = slaveAddr << 1 + I2C_TR_R;
+    i2c0->csr = I2C_CR_W;
+
+	/* Receive acknowledge from Slave */
+	i2c_check_bit(I2C_SR_RACK);  
 	
-	do 	
-	{
-		sr = i2c0->csr;
-		//uart_putchar(sr);
-		//uart_putstr("\n");
- 	} while ( sr & 0x20 );	
- 
-	i2c0->csr = 0x28;
+	/* Read a byte from the slave */
+	*pBuffer = i2c0->txrxr;
+
+	/* Disable Acknowledgement and Enable STOP Condition*/
+	i2c0->csr = I2C_CR_ACK | I2C_CR_STOP;	
 	
-	uart_putstr("End I2C Test  \n");
+}
+
+/**
+ * Write a register from a specific slave
+ */
+void i2c_write_register(uint8_t slaveAddr, uint8_t readAddr, uint8_t data)
+{
+
+	/* While the bus is busy */
+	i2c_check_bit(I2C_SR_BUSY);
+	
+	/* Send START condition */
+    i2c0->csr = I2C_CR_STA;
+
+	/* While the TIP is active */
+	i2c_check_bit(I2C_SR_TIP);
+	
+	/* Send slave address for write */
+    i2c0->txrxr = slaveAddr << 1 + I2C_TR_W;
+    i2c0->csr = I2C_CR_W;
+    
+	/* Receive acknowledge from Slave */
+	i2c_check_bit(I2C_SR_RACK);
+
+	/* Send the slave's internal address to write to */
+    i2c0->txrxr = readAddr;
+	i2c0->csr = I2C_CR_W;
+	
+	/* Receive acknowledge from Slave */
+	i2c_check_bit(I2C_SR_RACK);
+	
+	/* Send the slave's internal address to write to */
+    i2c0->txrxr = data;
+	i2c0->csr = I2C_CR_W;
+	
+	/* Receive acknowledge from Slave */
+	i2c_check_bit(I2C_SR_RACK);    
+
+	/* Enable STOP Condition*/
+	i2c0->csr = I2C_CR_STOP;	
+	
 }
 
 /*****************************************************************
