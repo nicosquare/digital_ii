@@ -423,7 +423,8 @@ void spi_test()
 	//int i;
 	int32_t aux_read;
 	spi0->ssr=0;
-	for(;;){
+	for(;;)
+	{
 	spi0->txr = 0x000AffAB; // Probado en el osciloscopio
 	}
 
