@@ -15,6 +15,8 @@ SIM_SRC=                                   \
 
 SRC=    					\
 	../system.v                        	\
+	../antibounce.v                        	\
+	../divisor_frecuencia_general.v                        	\
  	../rtl/lm32/lm32_cpu.v             	\
 	../rtl/lm32/lm32_instruction_unit.v	\
 	../rtl/lm32/lm32_decoder.v         	\

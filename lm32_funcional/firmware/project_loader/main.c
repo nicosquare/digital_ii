@@ -9,24 +9,13 @@ int main(int argc, char **argv)
 	// Initialize TIC
 	isr_init();
 	tic_init();
-	irq_set_mask(0x0000FFFF);
-	//irq_enable();
+	irq_set_mask(0x000FFFFF);
+	irq_enable();
 				
 	// Initialize I2C Core			
-//	i2c_core_init(0x00, 0xC7);
+	//i2c_core_init(0x00, 0xC7);
 	//MPU6050_Initialize();
 	
-	/*for(;;)
-	{
-<<<<<<< HEAD
-		spi_test();
-=======
-		uint8_t tmp;
-		
-		i2c_read_register(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_CONFIG, &tmp);
->>>>>>> 33e9fe3b772d40a5cbb3db79386ce50f9a647044
-	}
-	*/
 	//i2c_test();
 	//spi_test();
 	//gpio_test();
