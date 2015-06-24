@@ -42,6 +42,9 @@ int mode = 0;
  void tic_isr_7();
  void tic_isr_15();
  void tic_isr_16();
+ void tic_isr_17();
+ void tic_isr_18();
+ void tic_isr_19();
  
 /***************************************************************************
  * General utility functions
@@ -235,15 +238,27 @@ void tic_isr_15()
 
 void tic_isr_16()
 {
-	pwm_d[0] = mode;
-	pwm_d[1] = mode;
-	pwm_d[2] = mode;
-	pwm_d[3] = mode;
-	if(mode > 0)
-		mode = mode - 5;	
+	uart_putstr("Interruption Up\n");
 	
 }
 
+void tic_isr_17()
+{
+	uart_putstr("Interruption Down\n");
+	
+}
+
+void tic_isr_18()
+{
+	uart_putstr("Interruption Left\n");
+	
+}
+
+void tic_isr_19()
+{
+	uart_putstr("Interruption Right\n");
+	
+}
 
 /*****************************************************************
 *I2C Functions
@@ -523,10 +538,14 @@ void tic_init() //Inicialización de el timer
 	isr_register(8, &tic_isr_5);
 	isr_register(9, &tic_isr_6);
 	isr_register(10, &tic_isr_7);
-	
-	
+
+	//Button function register
 	isr_register(15, &tic_isr_15);
 	isr_register(16, &tic_isr_16);
+	isr_register(17, &tic_isr_17);
+	isr_register(18, &tic_isr_18);
+	isr_register(19, &tic_isr_19);
+
 }
 
 // Set period of PWM

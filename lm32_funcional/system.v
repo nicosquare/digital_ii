@@ -18,12 +18,13 @@ module system
 	output            led,
 	input             rst,
 	input             mode,
-					  mode1,
+					  up,
+					  down,
+					  left,
+					  right,	
 	// I2C
 	inout       	i2c_scl,
 	inout	    	i2c_sda, 	
-	output			i2c_scl_aux,
-	output			i2c_sda_aux,
 	// SPI
 	input 			spi_miso,
 	output			spi_mosi,
@@ -47,6 +48,58 @@ module system
 
 wire sys_clk = clk;
 wire sys_clk_n = ~clk;
+
+//------------------------------------------------------------------
+// Freecuency Divider
+//------------------------------------------------------------------
+
+wire ab_freq;
+
+divisor_frecuencia_general freq(
+	.clk(clk), 
+	.lim(1050000), 
+	.freq(ab_freq)
+);
+
+//------------------------------------------------------------------
+// Debouncer
+//------------------------------------------------------------------
+
+wire clean_up,
+	 clean_down,
+	 clean_left,
+	 clean_right,
+	 clean_mode;
+
+antibounce ab_mode(
+	.clk(ab_freq),
+    .control(mode),
+    .clean(clean_mode)
+);	
+
+antibounce ab_up(
+	.clk(ab_freq),
+    .control(up),
+    .clean(clean_up)
+);
+
+antibounce ab_down(
+	.clk(ab_freq),
+    .control(down),
+    .clean(clean_down)
+);
+
+antibounce ab_left(
+	.clk(ab_freq),
+    .control(left),
+    .clean(clean_left)
+);
+
+antibounce ab_right(
+	.clk(ab_freq),
+    .control(right),
+    .clean(clean_right)
+);
 	
 //------------------------------------------------------------------
 // Whishbone Wires
@@ -160,9 +213,12 @@ wire         spi0_intr;
 wire         gpio0_intr;
 wire [11:0]   timer0_intr;
 
-assign intr_n = { 15'h7FFF, 
-				  ~mode1, 
-				  ~mode, 
+assign intr_n = { 12'hFFF, 
+				  ~clean_right, 
+				  ~clean_left, 
+				  ~clean_down, 
+				  ~clean_up, 
+				  ~clean_mode, 
 				  ~timer0_intr[11], 
 				  ~timer0_intr[10], 
 				  ~timer0_intr[9], 
@@ -507,8 +563,6 @@ wb_uart #(
 // I2C
 assign i2c_scl = i2c0_scl;
 assign i2c_sda	= i2c0_sda;
-assign i2c_scl_aux = i2c0_scl;
-assign i2c_sda_aux	= i2c0_sda;
 
 // SPI
 assign spi0_miso = spi_miso;
