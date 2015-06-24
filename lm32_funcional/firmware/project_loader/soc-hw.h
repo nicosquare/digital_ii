@@ -87,7 +87,7 @@ typedef struct {
 
 void i2c_test();
 void i2c_core_init(uint8_t prerhi, uint8_t prerlo);
-void i2c_check_bit(uint8_t bit);
+void i2c_check_value(uint8_t value);
 void i2c_read_register(uint8_t slaveAddr, uint8_t readAddr, uint8_t* pBuffer);
 void i2c_write_register(uint8_t slaveAddr, uint8_t readAddr, uint8_t data);
 
