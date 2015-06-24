@@ -22,6 +22,8 @@ module system
 	// I2C
 	inout       	i2c_scl,
 	inout	    	i2c_sda, 	
+	output			i2c_scl_aux,
+	output			i2c_sda_aux,
 	// SPI
 	input 			spi_miso,
 	output			spi_mosi,
@@ -505,6 +507,8 @@ wb_uart #(
 // I2C
 assign i2c_scl = i2c0_scl;
 assign i2c_sda	= i2c0_sda;
+assign i2c_scl_aux = i2c0_scl;
+assign i2c_sda_aux	= i2c0_sda;
 
 // SPI
 assign spi0_miso = spi_miso;
@@ -517,9 +521,7 @@ assign spi_mosi_aux = spi0_mosi;
 assign spi_ss_aux = spi0_ss;
 assign spi_clk_aux = spi0_clk;
 
-
 // GPIO
-
 assign gpio0_pad_r = gpio_pad_r;
 assign gpio_pad_w = gpio0_pad_w;
 assign gpio_padoe = gpio0_padoe;

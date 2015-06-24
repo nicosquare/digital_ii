@@ -5,11 +5,11 @@
 [treeopen] system_tb.
 [treeopen] system_tb.dut.
 @22
-system_tb.dut.gpio0.gpio_dir[7:0]
-system_tb.dut.gpio0.gpio_i[7:0]
-system_tb.dut.gpio0.gpio_io[7:0]
-system_tb.dut.gpio0.gpio_o[7:0]
-@23
-system_tb.dut.gpio0.wb_adr_i[31:0]
-system_tb.dut.gpio0.wb_dat_i[31:0]
-system_tb.dut.gpio0.wb_dat_o[31:0]
+system_tb.dut.i2c0.prer[15:0]
+system_tb.dut.i2c0.ctr[7:0]
+system_tb.dut.i2c0.cr[7:0]
+system_tb.dut.i2c0.txr[7:0]
+system_tb.dut.i2c0.sr[7:0]
+system_tb.dut.i2c0.rxr[7:0]
+system_tb.dut.i2c0.sda
+system_tb.dut.i2c0.scl
