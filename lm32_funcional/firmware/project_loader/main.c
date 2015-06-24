@@ -13,14 +13,14 @@ int main(int argc, char **argv)
 	irq_enable();
 				
 	// Initialize I2C Core			
-	i2c_core_init(0x00, 0xC7);
-	MPU6050_Initialize();
+//	i2c_core_init(0x00, 0xC7);
+	//MPU6050_Initialize();
 	
-	for(;;)
+	/*for(;;)
 	{
-		i2c_test();
+		spi_test();
 	}
-	
+	*/
 	//i2c_test();
 	//spi_test();
 	//gpio_test();

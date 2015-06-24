@@ -18,6 +18,7 @@ module system
 	output            led,
 	input             rst,
 	input             mode,
+					  mode1,
 	// I2C
 	inout       	i2c_scl,
 	inout	    	i2c_sda, 	
@@ -157,7 +158,8 @@ wire         spi0_intr;
 wire         gpio0_intr;
 wire [11:0]   timer0_intr;
 
-assign intr_n = { 16'hFFFF, 
+assign intr_n = { 15'h7FFF, 
+				  ~mode1, 
 				  ~mode, 
 				  ~timer0_intr[11], 
 				  ~timer0_intr[10], 
