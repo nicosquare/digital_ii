@@ -57,7 +57,7 @@ module spi #(
    parameter  SHIFT_DIRECTION = 0,
    parameter  CLOCK_PHASE     = 0,
    parameter  CLOCK_POLARITY  = 0,
-   parameter  CLOCK_SEL       = 29,		//  SCLK = CLK_I / (2 * (CLOCK_SEL + 1)) = CLK_I / 4
+   parameter  CLOCK_SEL       = 9,		//  SCLK = CLK_I / (2 * (CLOCK_SEL + 1)) = CLK_I / 4
    parameter  MASTER          = 1,
    parameter  SLAVE_NUMBER    = 1,		//  maximum value = 8 for current design
    parameter  DATA_LENGTH     = 8,		//  changed from 32 to 8

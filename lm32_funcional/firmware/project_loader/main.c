@@ -13,16 +13,20 @@ int main(int argc, char **argv)
 	//irq_enable();
 				
 	// Initialize I2C Core			
-	i2c_core_init(0x00, 0xC7);
-	MPU6050_Initialize();
+//	i2c_core_init(0x00, 0xC7);
+	//MPU6050_Initialize();
 	
-	for(;;)
+	/*for(;;)
 	{
+<<<<<<< HEAD
+		spi_test();
+=======
 		uint8_t tmp;
 		
 		i2c_read_register(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_ACCEL_CONFIG, &tmp);
+>>>>>>> 33e9fe3b772d40a5cbb3db79386ce50f9a647044
 	}
-	
+	*/
 	//i2c_test();
 	//spi_test();
 	//gpio_test();

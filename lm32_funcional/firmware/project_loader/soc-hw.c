@@ -18,7 +18,7 @@ isr_ptr_t isr_table[32];
 // Duty cycle array
 // Each position stores de current duty cycle for each motor in percentages
 // [ M1 %| M2 %| M3 %| M4 %]
-uint32_t pwm_d[] = {1, 1, 1, 1};
+uint32_t pwm_d[] = {0, 0, 0, 0};
 
 // PWM max period
 // Time (in miliseconds) of duration of PWM cycle
@@ -41,6 +41,7 @@ int mode = 0;
  void tic_isr_6();
  void tic_isr_7();
  void tic_isr_15();
+ void tic_isr_16();
  
 /***************************************************************************
  * General utility functions
@@ -222,18 +223,27 @@ void tic_isr_7()
 }
 
 void tic_isr_15()
-{
-	uart_putstr("Interruption Mode\n");
+{	
+	pwm_d[0] = mode;
+	pwm_d[1] = mode;
+	pwm_d[2] = mode;
+	pwm_d[3] = mode;
+	if(mode < 100)
+		mode = mode + 5;
 	
-	mode = mode +1;
-	
-		pwm_d[0] = mode;
-		pwm_d[1] = mode;
-		pwm_d[2] = mode;
-		pwm_d[3] = mode;
-		if(mode == 100)
-			mode = 0;
 }
+
+void tic_isr_16()
+{
+	pwm_d[0] = mode;
+	pwm_d[1] = mode;
+	pwm_d[2] = mode;
+	pwm_d[3] = mode;
+	if(mode > 0)
+		mode = mode - 5;	
+	
+}
+
 
 /*****************************************************************
 *I2C Functions
@@ -363,11 +373,13 @@ void spi_test()
 {
 	uart_putstr("Begin SPI Test \n");
 	//int i;
-	int32_t aux_read;
-	spi0->ssr=0;
 	for(;;)
 	{
-	spi0->txr = 0x000AffAB; // Probado en el osciloscopio
+	spi0->ssr=0;
+	spi0->txr = 0x50 ; // Probado en el osciloscopio
+	spi0->txr = 0x53 ;
+	spi0->txr = 0x00 ;
+	spi0->txr = 0x01 ;
 	}
 
 	
@@ -512,7 +524,9 @@ void tic_init() //Inicialización de el timer
 	isr_register(9, &tic_isr_6);
 	isr_register(10, &tic_isr_7);
 	
+	
 	isr_register(15, &tic_isr_15);
+	isr_register(16, &tic_isr_16);
 }
 
 // Set period of PWM
