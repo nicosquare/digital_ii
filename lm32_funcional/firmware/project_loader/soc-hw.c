@@ -363,21 +363,21 @@ void i2c_write_register(uint8_t slaveAddr, uint8_t readAddr, uint8_t data)
 	i2c_check_value((uint8_t) I2C_SR_TIP);
 
 	/* Send the slave's internal address to write to */
-    i2c0->txrxr = readAddr;
-	i2c0->csr = I2C_CR_W;
+    //i2c0->txrxr = readAddr;
+	//i2c0->csr = I2C_CR_W;
 	
 	/* Check TIP bit */
-	i2c_check_value((uint8_t) I2C_SR_TIP);
+	//i2c_check_value((uint8_t) I2C_SR_TIP);
 
 	/* Send the slave's internal address to write to */
-    i2c0->txrxr = data;
-	i2c0->csr = I2C_CR_W;
+    //i2c0->txrxr = data;
+	//i2c0->csr = I2C_CR_W;
 	
 	/* Check TIP bit */
-	i2c_check_value((uint8_t) I2C_SR_TIP);
+	//i2c_check_value((uint8_t) I2C_SR_TIP);
 
 	/* Enable STOP Condition*/
-	i2c0->csr = I2C_CR_STOP;	
+	//i2c0->csr = I2C_CR_STOP;	
 	
 }
 
