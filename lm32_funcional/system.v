@@ -24,7 +24,12 @@ module system
 					  right,	
 	// I2C
 	inout       	i2c_scl,
-	inout	    	i2c_sda, 	
+	inout	    	i2c_sda, 
+	inout       	i2c_scl_aux,
+	inout	    	i2c_sda_aux, 		
+	
+	
+	
 	// SPI
 	input 			spi_miso,
 	output			spi_mosi,
@@ -563,6 +568,10 @@ wb_uart #(
 // I2C
 assign i2c_scl = i2c0_scl;
 assign i2c_sda	= i2c0_sda;
+
+assign i2c_scl_aux = i2c0_scl;
+assign i2c_sda_aux	= i2c0_sda;
+
 
 // SPI
 assign spi0_miso = spi_miso;
