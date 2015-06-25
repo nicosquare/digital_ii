@@ -27,9 +27,7 @@ module system
 	inout	    	i2c_sda, 
 	inout       	i2c_scl_aux,
 	inout	    	i2c_sda_aux, 		
-	
-	
-	
+
 	// SPI
 	input 			spi_miso,
 	output			spi_mosi,
