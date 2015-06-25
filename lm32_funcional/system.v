@@ -23,8 +23,8 @@ module system
 					  left,
 					  right,	
 	// I2C
-	inout       	i2c_scl,
-	inout	    	i2c_sda, 	
+	output       	i2c_scl,
+	output	    	i2c_sda, 	
 	// SPI
 	input 			spi_miso,
 	output			spi_mosi,
